@@ -3,7 +3,10 @@ spring:
     name: appointments
   datasource:
     url: "jdbc:postgresql://localhost:5432/appointments"
-    username: "postgres"
-    password: "postgres"
+    username: "appointments"
+    password: "appointments"
+  jpa:
+    show-sql: true
   flyway:
-    locations: "classpath:/db/migration"
+    password: ${spring.datasource.username}
+    user: ${spring.datasource.username}
