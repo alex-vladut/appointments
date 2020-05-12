@@ -2,53 +2,22 @@ package com.comp.appointments.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.ZonedDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 public class AppointmentTest {
 
     @Test
-    public void shouldCreateAppointment_withOneHourDuration() {
-        final String title = "My appointment";
-        final ZonedDateTime start = ZonedDateTime.now();
-        final ZonedDateTime end = start.plusHours(1);
+    public void shouldCreateAppointment() {
+        final var title = "My appointment";
+        final var interval = mock(Interval.class);
 
-        final Appointment appointment = Appointment.create(title, start, end);
-
-        assertNotNull(appointment);
-        assertEquals(appointment.start(), start);
-        assertEquals(appointment.end(), end);
-    }
-
-    @Test
-    public void shouldCreateAppointment_with15MinutesDuration() {
-        final String title = "My appointment";
-        final ZonedDateTime start = ZonedDateTime.now();
-        final ZonedDateTime end = start.plusMinutes(15);
-
-        final Appointment appointment = Appointment.create(title, start, end);
+        final var appointment = Appointment.create(title, interval);
 
         assertNotNull(appointment);
-        assertEquals(appointment.start(), start);
-        assertEquals(appointment.end(), end);
+        assertEquals(appointment.interval(), interval);
+        assertEquals(appointment.title(), title);
     }
 
-    @Test
-    public void shouldNotCreateAppointment_withEndTimeBeforeStartTime() {
-        final String title = "My appointment";
-        final ZonedDateTime start = ZonedDateTime.now();
-        final ZonedDateTime end = start.minusMinutes(15);
-
-        assertThrows(IllegalArgumentException.class, () -> Appointment.create(title, start, end));
-    }
-
-    @Test
-    public void shouldNotCreateAppointment_withWrongDuration() {
-        final String title = "My appointment";
-        final ZonedDateTime start = ZonedDateTime.now();
-        final ZonedDateTime end = start.plusHours(5);
-
-        assertThrows(IllegalArgumentException.class, () -> Appointment.create(title, start, end));
-    }
 }

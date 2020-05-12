@@ -13,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,8 +44,9 @@ public class AppointmentsServiceTest {
 
         verify(repository).save(captor.capture());
         assertEquals(captor.getValue().id(), id);
-        assertEquals(captor.getValue().start(), request.start);
-        assertEquals(captor.getValue().end(), request.end);
+        assertNotNull(captor.getValue().interval());
+        assertEquals(captor.getValue().interval().start(), request.start);
+        assertEquals(captor.getValue().interval().end(), request.end);
     }
 
     @Test

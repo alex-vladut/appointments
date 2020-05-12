@@ -13,10 +13,10 @@ import java.util.UUID;
 public interface AppointmentsRepository extends CrudRepository<Appointment, UUID> {
     @Query("select count(a.id)" +
             " from Appointment a where" +
-            " :start between a.start and a.end or" +
-            " :end between a.start and a.end or" +
-            " a.start between :start and :end or" +
-            " a.end between :start and :end" +
+            " :start between a.interval.start and a.interval.end or" +
+            " :end between a.interval.start and a.interval.end or" +
+            " a.interval.start between :start and :end or" +
+            " a.interval.end between :start and :end" +
             " group by a.id")
     Integer overlapping(@Param("start") ZonedDateTime start, @Param("end") ZonedDateTime end);
 }

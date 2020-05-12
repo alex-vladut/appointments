@@ -1,6 +1,7 @@
 package com.comp.appointments.services;
 
 import com.comp.appointments.domain.Appointment;
+import com.comp.appointments.domain.WorkingTime;
 import com.comp.appointments.dtos.CreateAppointmentRequest;
 import com.comp.appointments.repositories.AppointmentsRepository;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,12 @@ public class AppointmentsService {
 
     @Transactional
     public UUID create(final CreateAppointmentRequest request) {
-        final Integer overlapping = repository.overlapping(request.start, request.end);
+        final var overlapping = repository.overlapping(request.start, request.end);
         if (overlapping != null && overlapping > 0) {
             throw new IllegalStateException("There is already an appointment booked for the selected time interval");
         }
-        final Appointment appointment = Appointment.create(request.title, request.start, request.end);
+        final var interval = new WorkingTime().createInterval(request.start, request.end);
+        final var appointment = Appointment.create(request.title, interval);
         repository.save(appointment);
         return appointment.id();
     }
