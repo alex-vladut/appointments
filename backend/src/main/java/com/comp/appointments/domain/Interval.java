@@ -36,6 +36,9 @@ public class Interval {
         if (start.isAfter(end)) {
             throw new IllegalArgumentException("Start time must be before end time");
         }
+        if (start.isBefore(ZonedDateTime.now())) {
+            throw new IllegalArgumentException("An appointment cannot be booked in the past");
+        }
         final var duration = Duration.between(start, end);
         if (!Arrays.asList(Duration.ofMinutes(15), Duration.ofHours(1)).contains(duration)) {
             throw new IllegalArgumentException("Appointment duration can be 15 minutes or 1 hour");

@@ -18,7 +18,7 @@ public class WorkingTimeTest {
 
     @Test
     public void shouldCreateInterval_withStartAndEndBetweenWorkingHours() {
-        final var start = ZonedDateTime.now().withHour(12);
+        final var start = ZonedDateTime.now().plusDays(1).withHour(12);
         final var end = start.plusHours(1);
 
         final var interval = workingTime.createInterval(start, end);
@@ -29,7 +29,7 @@ public class WorkingTimeTest {
 
     @Test
     public void shouldCreateInterval_withStartOutsideWorkingHours() {
-        final var start = ZonedDateTime.now().withHour(23);
+        final var start = ZonedDateTime.now().plusDays(1).withHour(23);
         final var end = start.plusHours(1);
 
         assertThrows(IllegalArgumentException.class, () -> workingTime.createInterval(start, end));
