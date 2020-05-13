@@ -15,6 +15,12 @@ const dummyData = [
     title: 'Appointment 1',
     start: new Date(),
     end: addHours(new Date(), 1)
+  },
+  {
+    id: '2',
+    title: 'An appointment with a very very long long name',
+    start: new Date(),
+    end: addHours(new Date(), 1)
   }
 ];
 

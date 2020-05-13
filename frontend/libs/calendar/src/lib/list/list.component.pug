@@ -10,6 +10,8 @@ nz-button-group.navigation
   div.header(*ngFor="let item of weekDays")
     div {{ item.name }}
     div.day([class.today]="item.isToday") {{ item.day }}
-  ng-container(*ngFor="let data of hours")
-    div.hour {{ data.hour }}
-    div(*ngFor="let i of weekDays")
+  ng-container(*ngFor="let hour of hours")
+    div.hour {{ hour.hour }}
+    div(*ngFor="let day of weekDays")
+      a.appointment(*ngFor="let appt of getAppointments(day.key, hour.key)")
+        | {{appt.title}}

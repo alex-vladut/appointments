@@ -1,12 +1,12 @@
 .container {
   display: grid;
   grid-template-columns: auto repeat(7, 1fr);
-  grid-template-rows: repeat(25, auto);
 
   & > * {
     border-bottom: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
-    padding: 0.5em;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   & > *:first-of-type {
@@ -19,6 +19,7 @@
     text-align: center;
     background-color: #fafafa;
     border-right: 0;
+    padding: 0.5em;
 
     .day {
       font-size: 1.5rem;
@@ -41,6 +42,29 @@
 
   .hour {
     font-weight: bold;
+    padding: 1em;
+  }
+
+  .appointment {
+    background-color: #1a73e8;
+    padding: 0.25em;
+    color: white;
+    font-weight: bold;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.1rem;
+
+    &:hover,
+    &:focus,
+    &:active {
+      cursor: pointer;
+    }
   }
 }
 
