@@ -1,0 +1,49 @@
+.container {
+  display: grid;
+  grid-template-columns: auto repeat(7, 1fr);
+  grid-template-rows: repeat(25, auto);
+
+  & > * {
+    border-bottom: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+    padding: 0.5em;
+  }
+
+  & > *:first-of-type {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .header {
+    font-weight: bold;
+    text-align: center;
+    background-color: #fafafa;
+    border-right: 0;
+
+    .day {
+      font-size: 1.5rem;
+      color: #70757a;
+      letter-spacing: -2.6px;
+      text-indent: -6px;
+    }
+
+    .today {
+      background-color: #1a73e8;
+      color: white;
+      border-radius: 100%;
+      line-height: 3rem;
+      height: 3rem;
+      margin-left: auto;
+      margin-right: auto;
+      width: 3rem;
+    }
+  }
+
+  .hour {
+    font-weight: bold;
+  }
+}
+
+.navigation {
+  margin: 1rem 0;
+}

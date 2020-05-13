@@ -25,7 +25,10 @@
               "apps/appointments/src/favicon.ico",
               "apps/appointments/src/assets"
             ],
-            "styles": ["apps/appointments/src/styles.scss"],
+            "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "apps/appointments/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -83,7 +86,10 @@
               "apps/appointments/tsconfig.app.json",
               "apps/appointments/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/appointments/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/appointments/**"
+            ]
           }
         },
         "test": {
@@ -118,8 +124,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/appointments-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/appointments-e2e/**"]
+            "tsConfig": [
+              "apps/appointments-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/appointments-e2e/**"
+            ]
           }
         }
       }

@@ -1,0 +1,15 @@
+nz-layout.app-layout
+  nz-sider.menu-sidebar(nzCollapsible [nzCollapsed]="isCollapsed")
+    .sidebar-logo
+      a(href='#')
+        img(src='https://ng.ant.design/assets/img/logo.svg' alt='logo')
+        h1 Appointments
+    ul(nz-menu nzTheme="dark" [nzInlineCollapsed]="isCollapsed")
+  nz-layout
+    nz-header
+      .app-header
+        span.header-trigger((click)="isCollapsed = !isCollapsed")
+          i.trigger(nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'")
+    nz-content
+      .inner-content
+        router-outlet
