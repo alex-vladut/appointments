@@ -25,6 +25,9 @@
     "appointments-e2e": {
       "tags": [],
       "implicitDependencies": ["appointments"]
+    },
+    "calendar": {
+      "tags": []
     }
   }
 }

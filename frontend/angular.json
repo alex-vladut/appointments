@@ -86,10 +86,7 @@
               "apps/appointments/tsconfig.app.json",
               "apps/appointments/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/appointments/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/appointments/**"]
           }
         },
         "test": {
@@ -124,14 +121,41 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/appointments-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/appointments-e2e/**"
-            ]
+            "tsConfig": ["apps/appointments-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/appointments-e2e/**"]
           }
+        }
+      }
+    },
+    "calendar": {
+      "projectType": "library",
+      "root": "libs/calendar",
+      "sourceRoot": "libs/calendar/src",
+      "prefix": "ng-appointments",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/calendar/tsconfig.lib.json",
+              "libs/calendar/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/calendar/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/calendar/jest.config.js",
+            "tsConfig": "libs/calendar/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/calendar/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       }
     }
