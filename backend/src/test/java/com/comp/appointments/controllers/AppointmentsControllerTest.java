@@ -1,5 +1,6 @@
 package com.comp.appointments.controllers;
 
+import com.comp.appointments.dtos.AppointmentDto;
 import com.comp.appointments.dtos.CreateAppointmentRequest;
 import com.comp.appointments.services.AppointmentsService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,10 +35,7 @@ public class AppointmentsControllerTest {
 
     @Test
     public void shouldCreateAppointment() {
-        final CreateAppointmentRequest request = new CreateAppointmentRequest();
-        request.title = "My appointment";
-        request.start = ZonedDateTime.now();
-        request.end = ZonedDateTime.now().plusHours(1);
+        final var request = new CreateAppointmentRequest("My appointment", ZonedDateTime.now(), ZonedDateTime.now().plusHours(1));
         final UUID appointmentId = UUID.randomUUID();
 
         when(service.create(request)).thenReturn(appointmentId);
@@ -46,5 +45,21 @@ public class AppointmentsControllerTest {
         verify(service).create(request);
         assertNotNull(result);
         assertEquals(result.getStatusCode(), HttpStatus.CREATED);
+    }
+
+    @Test
+    public void shouldGetAllAppointments() {
+        final var from = ZonedDateTime.now().minusDays(10);
+        final var to = ZonedDateTime.now();
+        final var data = Collections.singletonList(new AppointmentDto(UUID.randomUUID(), "My appointment", ZonedDateTime.now(), ZonedDateTime.now().plusHours(1)));
+
+        when(service.findAll(from, to)).thenReturn(data);
+
+        final var result = controller.getAll(from, to);
+
+        assertNotNull(result);
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        assertNotNull(result.getBody());
+        assertEquals(result.getBody().getData(), data);
     }
 }

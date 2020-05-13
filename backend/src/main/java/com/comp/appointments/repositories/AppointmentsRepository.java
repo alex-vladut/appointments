@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -19,4 +20,7 @@ public interface AppointmentsRepository extends CrudRepository<Appointment, UUID
             " a.interval.end between :start and :end" +
             " group by a.id")
     Integer overlapping(@Param("start") ZonedDateTime start, @Param("end") ZonedDateTime end);
+
+    @Query("select a from Appointment a where a.interval.start between :from and :to")
+    List<Appointment> findAllBetween(@Param("from") ZonedDateTime from, @Param("to") ZonedDateTime to);
 }
