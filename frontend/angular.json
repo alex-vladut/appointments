@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "projects": {
+    "appointments": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/appointments",
+      "sourceRoot": "apps/appointments/src",
+      "prefix": "ng-appointments",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/appointments",
+            "index": "apps/appointments/src/index.html",
+            "main": "apps/appointments/src/main.ts",
+            "polyfills": "apps/appointments/src/polyfills.ts",
+            "tsConfig": "apps/appointments/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/appointments/src/favicon.ico",
+              "apps/appointments/src/assets"
+            ],
+            "styles": ["apps/appointments/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/appointments/src/environments/environment.ts",
+                  "with": "apps/appointments/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "appointments:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "appointments:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "appointments:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/appointments/tsconfig.app.json",
+              "apps/appointments/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/appointments/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/appointments/jest.config.js",
+            "tsConfig": "apps/appointments/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/appointments/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "appointments-e2e": {
+      "root": "apps/appointments-e2e",
+      "sourceRoot": "apps/appointments-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/appointments-e2e/cypress.json",
+            "tsConfig": "apps/appointments-e2e/tsconfig.e2e.json",
+            "devServerTarget": "appointments:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "appointments:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/appointments-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/appointments-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "appointments"
+}
