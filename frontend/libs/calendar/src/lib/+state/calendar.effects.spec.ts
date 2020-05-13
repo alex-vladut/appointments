@@ -31,10 +31,10 @@ describe('CalendarEffects', () => {
 
   describe('loadCalendar$', () => {
     it('should work', () => {
-      actions = hot('-a-|', { a: CalendarActions.loadCalendar() });
+      actions = hot('-a-|', { a: CalendarActions.LoadAppointments() });
 
       const expected = hot('-a-|', {
-        a: CalendarActions.loadCalendarSuccess({ calendar: [] })
+        a: CalendarActions.LoadAppointmentsSuccess({ data: [] })
       });
 
       expect(effects.loadCalendar$).toBeObservable(expected);

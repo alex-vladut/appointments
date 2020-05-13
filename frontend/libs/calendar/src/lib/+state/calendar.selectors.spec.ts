@@ -1,15 +1,15 @@
-import { CalendarEntity } from './calendar.models';
+import { AppointmentEntity } from './calendar.models';
 import { State, calendarAdapter, initialState } from './calendar.reducer';
 import * as CalendarSelectors from './calendar.selectors';
 
 describe('Calendar Selectors', () => {
   const ERROR_MSG = 'No Error Available';
   const getCalendarId = it => it['id'];
-  const createCalendarEntity = (id: string, name = '') =>
+  const createCalendarEntity = (id: string, title = '') =>
     ({
       id,
-      name: name || `name-${id}`
-    } as CalendarEntity);
+      title: title || `name-${id}`
+    } as AppointmentEntity);
 
   let state;
 
@@ -33,7 +33,7 @@ describe('Calendar Selectors', () => {
 
   describe('Calendar Selectors', () => {
     it('getAllCalendar() should return the list of Calendar', () => {
-      const results = CalendarSelectors.getAllCalendar(state);
+      const results = CalendarSelectors.getAllAppointments(state);
       const selId = getCalendarId(results[1]);
 
       expect(results.length).toBe(3);
@@ -48,7 +48,7 @@ describe('Calendar Selectors', () => {
     });
 
     it("getCalendarLoaded() should return the current 'loaded' status", () => {
-      const result = CalendarSelectors.getCalendarLoaded(state);
+      const result = CalendarSelectors.getLoaded(state);
 
       expect(result).toBe(true);
     });

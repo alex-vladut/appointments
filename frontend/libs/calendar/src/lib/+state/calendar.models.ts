@@ -1,6 +1,9 @@
 /**
- * Interface for the 'Calendar' data
+ * Interface for the 'Appointment' data
  */
-export interface CalendarEntity {
-  id: string | number; // Primary ID
+export interface AppointmentEntity {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
 }

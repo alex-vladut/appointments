@@ -8,8 +8,10 @@ import { EffectsModule } from '@ngrx/effects';
 
 import * as fromCalendar from './+state/calendar.reducer';
 import { CalendarEffects } from './+state/calendar.effects';
+import { CalendarFacade } from './+state/calendar.facade';
 
 import { CalendarComponent } from './calendar.component';
+import { CalendarListComponent } from './list/list.component';
 
 @NgModule({
   imports: [
@@ -20,9 +22,14 @@ import { CalendarComponent } from './calendar.component';
       fromCalendar.CALENDAR_FEATURE_KEY,
       fromCalendar.reducer
     ),
-    EffectsModule.forFeature([CalendarEffects])
+    EffectsModule.forFeature([CalendarEffects]),
+    StoreModule.forFeature(
+      fromCalendar.CALENDAR_FEATURE_KEY,
+      fromCalendar.reducer
+    )
   ],
-  declarations: [CalendarComponent],
-  exports: [CalendarComponent]
+  declarations: [CalendarComponent, CalendarListComponent],
+  exports: [CalendarComponent],
+  providers: [CalendarFacade]
 })
 export class CalendarModule {}

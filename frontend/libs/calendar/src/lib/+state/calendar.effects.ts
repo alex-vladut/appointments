@@ -2,23 +2,36 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
 
-import * as fromCalendar from './calendar.reducer';
-import * as CalendarActions from './calendar.actions';
+import {
+  LoadAppointments,
+  LoadAppointmentsSuccess,
+  LoadAppointmentsFailure
+} from './calendar.actions';
+import { addHours } from 'date-fns';
 
-@Injectable()
+const dummyData = [
+  {
+    id: '1',
+    title: 'Appointment 1',
+    start: new Date(),
+    end: addHours(new Date(), 1)
+  }
+];
+
+@Injectable({ providedIn: 'root' })
 export class CalendarEffects {
   loadCalendar$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CalendarActions.loadCalendar),
+      ofType(LoadAppointments),
       fetch({
         run: action => {
           // Your custom service 'load' logic goes here. For now just return a success action...
-          return CalendarActions.loadCalendarSuccess({ calendar: [] });
+          return LoadAppointmentsSuccess({ data: dummyData });
         },
 
         onError: (action, error) => {
           console.error('Error', error);
-          return CalendarActions.loadCalendarFailure({ error });
+          return LoadAppointmentsFailure({ error });
         }
       })
     )

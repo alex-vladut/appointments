@@ -1,4 +1,4 @@
-import { CalendarEntity } from './calendar.models';
+import { AppointmentEntity } from './calendar.models';
 import * as CalendarActions from './calendar.actions';
 import { State, initialState, reducer } from './calendar.reducer';
 
@@ -7,7 +7,7 @@ describe('Calendar Reducer', () => {
     ({
       id,
       name: name || `name-${id}`
-    } as CalendarEntity);
+    } as AppointmentEntity);
 
   beforeEach(() => {});
 
@@ -17,7 +17,7 @@ describe('Calendar Reducer', () => {
         createCalendarEntity('PRODUCT-AAA'),
         createCalendarEntity('PRODUCT-zzz')
       ];
-      const action = CalendarActions.loadCalendarSuccess({ calendar });
+      const action = CalendarActions.LoadAppointmentsSuccess({ calendar });
 
       const result: State = reducer(initialState, action);
 

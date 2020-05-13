@@ -2,22 +2,22 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as CalendarActions from './calendar.actions';
-import { CalendarEntity } from './calendar.models';
+import { AppointmentEntity } from './calendar.models';
 
 export const CALENDAR_FEATURE_KEY = 'calendar';
 
-export interface State extends EntityState<CalendarEntity> {
-  selectedId?: string | number; // which Calendar record has been selected
-  loaded: boolean; // has the Calendar list been loaded
-  error?: string | null; // last none error (if any)
+export interface State extends EntityState<AppointmentEntity> {
+  selectedId?: string | number;
+  loaded: boolean;
+  error?: string | null;
 }
 
 export interface CalendarPartialState {
   readonly [CALENDAR_FEATURE_KEY]: State;
 }
 
-export const calendarAdapter: EntityAdapter<CalendarEntity> = createEntityAdapter<
-  CalendarEntity
+export const calendarAdapter: EntityAdapter<AppointmentEntity> = createEntityAdapter<
+  AppointmentEntity
 >();
 
 export const initialState: State = calendarAdapter.getInitialState({
@@ -27,15 +27,15 @@ export const initialState: State = calendarAdapter.getInitialState({
 
 const calendarReducer = createReducer(
   initialState,
-  on(CalendarActions.loadCalendar, state => ({
+  on(CalendarActions.LoadAppointments, state => ({
     ...state,
     loaded: false,
     error: null
   })),
-  on(CalendarActions.loadCalendarSuccess, (state, { calendar }) =>
-    calendarAdapter.addAll(calendar, { ...state, loaded: true })
+  on(CalendarActions.LoadAppointmentsSuccess, (state, { data }) =>
+    calendarAdapter.setAll(data, { ...state, loaded: true })
   ),
-  on(CalendarActions.loadCalendarFailure, (state, { error }) => ({
+  on(CalendarActions.LoadAppointmentsFailure, (state, { error }) => ({
     ...state,
     error
   }))

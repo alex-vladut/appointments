@@ -1,14 +1,17 @@
 import { createAction, props } from '@ngrx/store';
-import { CalendarEntity } from './calendar.models';
 
-export const loadCalendar = createAction('[Calendar] Load Calendar');
+import { AppointmentEntity } from './calendar.models';
 
-export const loadCalendarSuccess = createAction(
-  '[Calendar] Load Calendar Success',
-  props<{ calendar: CalendarEntity[] }>()
+const _ = (action: string) => `[Calendar] ${action}`;
+
+export const LoadAppointments = createAction(_('Load Appointments'));
+
+export const LoadAppointmentsSuccess = createAction(
+  _('Load Appointments Success'),
+  props<{ data: AppointmentEntity[] }>()
 );
 
-export const loadCalendarFailure = createAction(
-  '[Calendar] Load Calendar Failure',
+export const LoadAppointmentsFailure = createAction(
+  _('Load Appointments Failure'),
   props<{ error: any }>()
 );

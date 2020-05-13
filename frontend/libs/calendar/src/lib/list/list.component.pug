@@ -1,0 +1,15 @@
+nz-button-group.navigation
+  button(nz-button, nzType="primary", (click)="onBack()")
+    i(nz-icon nzType="left")
+    | Back
+  button(nz-button, nzType="primary", (click)="onNext()")
+    | Next
+    i(nz-icon nzType="right")
+.container
+  div {{offset}}
+  div.header(*ngFor="let item of weekDays")
+    div {{ item.name }}
+    div.day([class.today]="item.isToday") {{ item.day }}
+  ng-container(*ngFor="let data of hours")
+    div.hour {{ data.hour }}
+    div(*ngFor="let i of weekDays")
