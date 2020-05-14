@@ -1,0 +1,1 @@
+# Appointments Spring Boot application
