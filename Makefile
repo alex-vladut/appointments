@@ -6,6 +6,7 @@ MIN_DOCKER_SERVER_VERSION = 17.03
 
 backend_build: ## Build the Docker image for backend application
 	@echo "> Building backend Docker image..."
+	@cd ./backend; ./gradlew clean build
 	@docker build backend/. -t alex-vladut/appointments
 
 backend_dependencies_up: backend_build ## Start backend application dependencies (e.g. database)
@@ -27,6 +28,7 @@ clean: ## Cleans up all the Docker containers left running
 
 client_up: ## Starts the client application
 	@echo "> Starting frontend application on http://localhost:4200"
+	@npm install --prefix frontend
 	@npm start --prefix frontend appointments
 
 up: backend_up client_up ## Starts the backend and client application
