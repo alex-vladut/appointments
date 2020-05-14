@@ -17,6 +17,7 @@ export interface State extends EntityState<AppointmentEntity> {
   error?: string | null;
   startDate: Date;
   weekDays: WeekDayEntity[];
+  isCreateAppointmentOpen: boolean;
 }
 
 export interface CalendarPartialState {
@@ -33,7 +34,8 @@ export const initialState: State = calendarAdapter.getInitialState({
   startDate: firstDayOfWeek,
   weekDays: createWeekDays(firstDayOfWeek),
   createState: 'INIT',
-  loaded: false
+  loaded: false,
+  isCreateAppointmentOpen: false
 });
 
 const calendarReducer = createReducer(
@@ -66,13 +68,23 @@ const calendarReducer = createReducer(
       weekDays: createWeekDays(newFirstWeekDay)
     };
   }),
+  on(CalendarActions.OpenCreateAppointment, state => ({
+    ...state,
+    isCreateAppointmentOpen: true
+  })),
+  on(CalendarActions.CloseCreateAppointment, state => ({
+    ...state,
+    isCreateAppointmentOpen: false
+  })),
   on(CalendarActions.CreateAppointment, state => ({
     ...state,
     createState: 'LOADING'
   })),
   on(CalendarActions.CreateAppointmentSuccess, state => ({
     ...state,
-    createState: 'LOADED'
+    createState: 'LOADED',
+    error: null,
+    isCreateAppointmentOpen: false
   })),
   on(CalendarActions.CreateAppointmentFailure, (state, { error }) => ({
     ...state,

@@ -17,10 +17,7 @@ export const getLoaded = createSelector(
   (state: State) => state.loaded
 );
 
-export const getError = createSelector(
-  getState,
-  (state: State) => state.error
-);
+export const getError = createSelector(getState, (state: State) => state.error);
 
 export const getAllAppointments = createSelector(getState, (state: State) =>
   selectAll(state)
@@ -49,4 +46,9 @@ export const getStartDate = createSelector(
 export const getWeekDays = createSelector(
   getState,
   (state: State) => state.weekDays
+);
+
+export const getCreateAppointmentOpen = createSelector(
+  getState,
+  (state: State) => state.isCreateAppointmentOpen
 );

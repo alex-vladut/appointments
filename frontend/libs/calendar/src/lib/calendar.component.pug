@@ -1,14 +1,14 @@
 ng-appointments-calendar-filter(
   (previous)="facade.previousWeek()",
   (next)="facade.nextWeek()",
-  (create)="isCreateModalOpen = true")
+  (create)="facade.openCreateAppointment()")
 
 ng-appointments-calendar-list(
   [appointments]="facade.allAppointments$ | async",
   [weekDays]="facade.weekDays$ | async")
 
 ng-appointments-calendar-create(
-  [isVisible]="isCreateModalOpen",
+  [isVisible]="facade.isCreateAppointmentOpen$ | async",
   [error]="facade.error$ | async",
-  (cancel)="isCreateModalOpen = false",
+  (cancel)="facade.closeCreateAppointment()",
   (save)="facade.createAppointment($event)")

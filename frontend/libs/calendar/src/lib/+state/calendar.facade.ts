@@ -15,6 +15,9 @@ export class CalendarFacade {
   );
   selectedAppointment$ = this.store.pipe(select(CalendarSelectors.getSelected));
   weekDays$ = this.store.pipe(select(CalendarSelectors.getWeekDays));
+  isCreateAppointmentOpen$ = this.store.pipe(
+    select(CalendarSelectors.getCreateAppointmentOpen)
+  );
 
   constructor(
     private readonly store: Store<fromCalendar.CalendarPartialState>
@@ -22,6 +25,14 @@ export class CalendarFacade {
 
   loadAppointments() {
     this.store.dispatch(CalendarActions.LoadAppointments());
+  }
+
+  openCreateAppointment() {
+    this.store.dispatch(CalendarActions.OpenCreateAppointment());
+  }
+
+  closeCreateAppointment() {
+    this.store.dispatch(CalendarActions.CloseCreateAppointment());
   }
 
   createAppointment(appointment: any) {

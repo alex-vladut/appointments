@@ -20,6 +20,12 @@ export const NextWeek = createAction(_('Next Week'));
 
 export const PreviousWeek = createAction(_('Previous Week'));
 
+export const OpenCreateAppointment = createAction(_('Open Create Appointment'));
+
+export const CloseCreateAppointment = createAction(
+  _('Close Create Appointment')
+);
+
 export const CreateAppointment = createAction(
   _('Create Appointment'),
   props<{ appointment: any }>()
