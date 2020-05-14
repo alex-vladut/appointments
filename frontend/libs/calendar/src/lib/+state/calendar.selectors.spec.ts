@@ -54,7 +54,7 @@ describe('Calendar Selectors', () => {
     });
 
     it("getError() should return the current 'error' state", () => {
-      const result = CalendarSelectors.getCalendarError(state);
+      const result = CalendarSelectors.getError(state);
 
       expect(result).toBe(ERROR_MSG);
     });

@@ -7,6 +7,8 @@ import { CalendarFacade } from './+state/calendar.facade';
   templateUrl: './calendar.component.pug'
 })
 export class CalendarComponent implements OnInit {
+  isCreateModalOpen = false;
+
   constructor(readonly facade: CalendarFacade) {}
 
   ngOnInit() {

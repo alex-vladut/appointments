@@ -8,9 +8,12 @@ import { createWeekDays } from '../utils';
 
 export const CALENDAR_FEATURE_KEY = 'calendar';
 
+export type ApiState = 'INIT' | 'LOADING' | 'LOADED' | 'ERROR';
+
 export interface State extends EntityState<AppointmentEntity> {
   selectedId?: string | number;
   loaded: boolean;
+  createState: ApiState;
   error?: string | null;
   startDate: Date;
   weekDays: WeekDayEntity[];
@@ -29,6 +32,7 @@ const firstDayOfWeek = startOfDay(startOfWeek(new Date()));
 export const initialState: State = calendarAdapter.getInitialState({
   startDate: firstDayOfWeek,
   weekDays: createWeekDays(firstDayOfWeek),
+  createState: 'INIT',
   loaded: false
 });
 
@@ -61,7 +65,22 @@ const calendarReducer = createReducer(
       startDate: newFirstWeekDay,
       weekDays: createWeekDays(newFirstWeekDay)
     };
-  })
+  }),
+  on(CalendarActions.CreateAppointment, state => ({
+    ...state,
+    createState: 'LOADING'
+  })),
+  on(CalendarActions.CreateAppointmentSuccess, state => ({
+    ...state,
+    createState: 'LOADED'
+  })),
+  on(CalendarActions.CreateAppointmentFailure, (state, { error }) => ({
+    ...state,
+    createState: 'ERROR',
+    error:
+      error.message ||
+      'There was an error while saving your appointment. Please check the input data and try again.'
+  }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

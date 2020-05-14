@@ -17,7 +17,7 @@ export const getLoaded = createSelector(
   (state: State) => state.loaded
 );
 
-export const getCalendarError = createSelector(
+export const getError = createSelector(
   getState,
   (state: State) => state.error
 );

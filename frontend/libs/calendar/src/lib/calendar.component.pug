@@ -2,4 +2,11 @@ ng-appointments-calendar-list(
   [appointments]="facade.allAppointments$ | async",
   [weekDays]="facade.weekDays$ | async",
   (previous)="facade.previousWeek()",
-  (next)="facade.nextWeek()")
+  (next)="facade.nextWeek()",
+  (create)="isCreateModalOpen = true")
+
+ng-appointments-calendar-create(
+  [isVisible]="isCreateModalOpen",
+  [error]="facade.error$ | async",
+  (cancel)="isCreateModalOpen = false",
+  (save)="facade.createAppointment($event)")

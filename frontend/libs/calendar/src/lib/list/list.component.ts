@@ -36,6 +36,7 @@ export class CalendarListComponent implements OnInit {
 
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
+  @Output() create = new EventEmitter();
 
   offset: string;
   hours: any[];

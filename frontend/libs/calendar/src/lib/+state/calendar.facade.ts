@@ -9,6 +9,7 @@ import * as CalendarSelectors from './calendar.selectors';
 @Injectable({ providedIn: 'root' })
 export class CalendarFacade {
   loaded$ = this.store.pipe(select(CalendarSelectors.getLoaded));
+  error$ = this.store.pipe(select(CalendarSelectors.getError));
   allAppointments$ = this.store.pipe(
     select(CalendarSelectors.getAllAppointments)
   );
@@ -21,6 +22,10 @@ export class CalendarFacade {
 
   loadAppointments() {
     this.store.dispatch(CalendarActions.LoadAppointments());
+  }
+
+  createAppointment(appointment: any) {
+    this.store.dispatch(CalendarActions.CreateAppointment({ appointment }));
   }
 
   nextWeek() {

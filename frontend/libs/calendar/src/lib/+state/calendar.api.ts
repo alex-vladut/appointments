@@ -41,4 +41,8 @@ export class CalendarApi {
       params
     }) as Observable<{ data: AppointmentEntity[] }>;
   }
+
+  create(appointment: any) {
+    return this.http.post(`${this.apiUrl}/appointments`, appointment);
+  }
 }

@@ -1,10 +1,14 @@
-nz-button-group.navigation
-  button(nz-button, nzType="primary", (click)="previous.emit()")
-    i(nz-icon nzType="left")
-    | Back
-  button(nz-button, nzType="primary", (click)="next.emit()")
-    | Next
-    i(nz-icon nzType="right")
+.navigation
+  nz-button-group
+    button(nz-button, nzType="primary", (click)="previous.emit()")
+      i(nz-icon nzType="left")
+      | Back
+    button(nz-button, nzType="primary", (click)="next.emit()")
+      | Next
+      i(nz-icon nzType="right")
+  button.right(nz-button, nzType="primary", (click)="create.emit()")
+    i(nz-icon nzType="form")
+    | Create
 .container
   div {{offset}}
   div.header(*ngFor="let item of weekDays")
