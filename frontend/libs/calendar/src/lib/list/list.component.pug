@@ -1,8 +1,8 @@
 nz-button-group.navigation
-  button(nz-button, nzType="primary", (click)="onBack()")
+  button(nz-button, nzType="primary", (click)="previous.emit()")
     i(nz-icon nzType="left")
     | Back
-  button(nz-button, nzType="primary", (click)="onNext()")
+  button(nz-button, nzType="primary", (click)="next.emit()")
     | Next
     i(nz-icon nzType="right")
 .container
@@ -13,5 +13,5 @@ nz-button-group.navigation
   ng-container(*ngFor="let hour of hours")
     div.hour {{ hour.hour }}
     div(*ngFor="let day of weekDays")
-      a.appointment(*ngFor="let appt of getAppointments(day.key, hour.key)")
+      a.appointment(*ngFor="let appt of getAppointments(day.date, hour.key)")
         | {{appt.title}}

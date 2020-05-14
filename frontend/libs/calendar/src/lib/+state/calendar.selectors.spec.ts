@@ -5,7 +5,7 @@ import * as CalendarSelectors from './calendar.selectors';
 describe('Calendar Selectors', () => {
   const ERROR_MSG = 'No Error Available';
   const getCalendarId = it => it['id'];
-  const createCalendarEntity = (id: string, title = '') =>
+  const createAppointmentEntity = (id: string, title = '') =>
     ({
       id,
       title: title || `name-${id}`
@@ -15,11 +15,11 @@ describe('Calendar Selectors', () => {
 
   beforeEach(() => {
     state = {
-      calendar: calendarAdapter.addAll(
+      calendar: calendarAdapter.setAll(
         [
-          createCalendarEntity('PRODUCT-AAA'),
-          createCalendarEntity('PRODUCT-BBB'),
-          createCalendarEntity('PRODUCT-CCC')
+          createAppointmentEntity('PRODUCT-AAA'),
+          createAppointmentEntity('PRODUCT-BBB'),
+          createAppointmentEntity('PRODUCT-CCC')
         ],
         {
           ...initialState,
@@ -32,7 +32,7 @@ describe('Calendar Selectors', () => {
   });
 
   describe('Calendar Selectors', () => {
-    it('getAllCalendar() should return the list of Calendar', () => {
+    it('getAllAppontments() should return the list of Appointments', () => {
       const results = CalendarSelectors.getAllAppointments(state);
       const selId = getCalendarId(results[1]);
 
@@ -47,13 +47,13 @@ describe('Calendar Selectors', () => {
       expect(selId).toBe('PRODUCT-BBB');
     });
 
-    it("getCalendarLoaded() should return the current 'loaded' status", () => {
+    it("getLoaded() should return the current 'loaded' status", () => {
       const result = CalendarSelectors.getLoaded(state);
 
       expect(result).toBe(true);
     });
 
-    it("getCalendarError() should return the current 'error' state", () => {
+    it("getError() should return the current 'error' state", () => {
       const result = CalendarSelectors.getCalendarError(state);
 
       expect(result).toBe(ERROR_MSG);

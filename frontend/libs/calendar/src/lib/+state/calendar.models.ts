@@ -7,3 +7,13 @@ export interface AppointmentEntity {
   start: Date;
   end: Date;
 }
+
+/**
+ * Interface for the 'WeekDay' data
+ */
+export interface WeekDayEntity {
+  name: string;
+  day: number;
+  date: string;
+  isToday: boolean;
+}

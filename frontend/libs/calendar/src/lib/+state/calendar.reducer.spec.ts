@@ -3,21 +3,21 @@ import * as CalendarActions from './calendar.actions';
 import { State, initialState, reducer } from './calendar.reducer';
 
 describe('Calendar Reducer', () => {
-  const createCalendarEntity = (id: string, name = '') =>
+  const createAppointmentEntity = (id: string, title = '') =>
     ({
       id,
-      name: name || `name-${id}`
+      title: title || `name-${id}`,
     } as AppointmentEntity);
 
   beforeEach(() => {});
 
   describe('valid Calendar actions', () => {
     it('loadCalendarSuccess should return set the list of known Calendar', () => {
-      const calendar = [
-        createCalendarEntity('PRODUCT-AAA'),
-        createCalendarEntity('PRODUCT-zzz')
+      const data = [
+        createAppointmentEntity('PRODUCT-AAA'),
+        createAppointmentEntity('PRODUCT-zzz')
       ];
-      const action = CalendarActions.LoadAppointmentsSuccess({ calendar });
+      const action = CalendarActions.LoadAppointmentsSuccess({ data });
 
       const result: State = reducer(initialState, action);
 

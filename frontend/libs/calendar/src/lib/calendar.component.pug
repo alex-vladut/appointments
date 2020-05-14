@@ -1,1 +1,5 @@
-ng-appointments-calendar-list([appointments]="facade.allAppointments$ | async")
+ng-appointments-calendar-list(
+  [appointments]="facade.allAppointments$ | async",
+  [weekDays]="facade.weekDays$ | async",
+  (previous)="facade.previousWeek()",
+  (next)="facade.nextWeek()")

@@ -1,3 +1,7 @@
+import { getDay, isSameDay, addDays } from 'date-fns';
+
+import { WeekDayEntity } from './+state/calendar.models';
+
 export const range = (start: number, end: number) =>
   Array(end - start + 1)
     .fill(0)
@@ -14,7 +18,7 @@ export const buildOffset = (date: Date) => {
   }
 };
 
-export const days = {
+const days = {
   0: 'Sun.',
   1: 'Mon.',
   2: 'Tue.',
@@ -23,3 +27,14 @@ export const days = {
   5: 'Fri.',
   6: 'Sat.'
 };
+
+export const createWeekDays = (firstDayOfWeek: Date): WeekDayEntity[] =>
+  range(0, 6).map(i => {
+    const date = addDays(firstDayOfWeek, i);
+    return {
+      name: days[getDay(date)],
+      day: date.getDate(),
+      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      isToday: isSameDay(date, new Date())
+    };
+  });
