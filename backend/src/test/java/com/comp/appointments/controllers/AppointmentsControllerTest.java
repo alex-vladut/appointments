@@ -44,7 +44,7 @@ public class AppointmentsControllerTest {
 
         verify(service).create(request);
         assertNotNull(result);
-        assertEquals(result.getStatusCode(), HttpStatus.CREATED);
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class AppointmentsControllerTest {
         final var result = controller.getAll(from, to);
 
         assertNotNull(result);
-        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
         assertNotNull(result.getBody());
-        assertEquals(result.getBody().getData(), data);
+        assertEquals(data, result.getBody().getData());
     }
 }

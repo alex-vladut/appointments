@@ -35,7 +35,7 @@ public class AppointmentsServiceTest {
 
     @Test
     public void shouldCreateAppointment() {
-        final var start = ZonedDateTime.now().withHour(12);
+        final var start = ZonedDateTime.now().plusDays(5).withHour(12);
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
@@ -53,7 +53,7 @@ public class AppointmentsServiceTest {
 
     @Test
     public void shouldNotCreateAppointment_withAppointmentExistingForInterval() {
-        final var start = ZonedDateTime.now().withHour(12);
+        final var start = ZonedDateTime.now().plusDays(5).withHour(12);
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
@@ -75,8 +75,8 @@ public class AppointmentsServiceTest {
         final var result = service.findAll(from, to);
 
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0), dto);
+        assertEquals(1, result.size());
+        assertEquals(dto, result.get(0));
     }
 
 }

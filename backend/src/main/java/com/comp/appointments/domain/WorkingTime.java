@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class WorkingTime {
     private final List<DayOfWeek> workingDays = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY);
-    private final ZoneOffset timezone = ZoneOffset.UTC;
+    private static final ZoneOffset DEFAULT_TIMEZONE = ZoneOffset.UTC;
 
     public Interval createInterval(final ZonedDateTime start, final ZonedDateTime end) {
         final var interval = Interval.create(start, end);
@@ -24,8 +24,8 @@ public class WorkingTime {
     }
 
     private boolean isInWorkingDaysInterval(final Interval interval) {
-        final LocalDateTime startLocal = LocalDateTime.ofInstant(interval.start().toInstant(), timezone);
-        final LocalDateTime endLocal = LocalDateTime.ofInstant(interval.end().toInstant(), timezone);
+        final LocalDateTime startLocal = LocalDateTime.ofInstant(interval.start().toInstant(), DEFAULT_TIMEZONE);
+        final LocalDateTime endLocal = LocalDateTime.ofInstant(interval.end().toInstant(), DEFAULT_TIMEZONE);
 
         return workingDays.contains(startLocal.getDayOfWeek()) && workingDays.contains(endLocal.getDayOfWeek())
                 && isInWorkingHours(startLocal) && isInWorkingHours(endLocal);
