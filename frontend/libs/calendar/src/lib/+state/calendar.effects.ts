@@ -1,47 +1,52 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
+import { withLatestFrom, map } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 
-import {
-  LoadAppointments,
-  LoadAppointmentsSuccess,
-  LoadAppointmentsFailure
-} from './calendar.actions';
-import { addHours } from 'date-fns';
-
-const dummyData = [
-  {
-    id: '1',
-    title: 'Appointment 1',
-    start: new Date(),
-    end: addHours(new Date(), 1)
-  },
-  {
-    id: '2',
-    title: 'An appointment with a very very long long name',
-    start: new Date(),
-    end: addHours(new Date(), 1)
-  }
-];
+import * as CalendarActions from './calendar.actions';
+import { CalendarApi } from './calendar.api';
+import * as CalendarSelectors from './calendar.selectors';
+import * as fromCalendar from './calendar.reducer';
+import { addDays, endOfDay, startOfDay } from 'date-fns';
 
 @Injectable({ providedIn: 'root' })
 export class CalendarEffects {
-  loadCalendar$ = createEffect(() =>
+  loadAppointments$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LoadAppointments),
+      ofType(
+        CalendarActions.LoadAppointments,
+        CalendarActions.NextWeek,
+        CalendarActions.PreviousWeek
+      ),
+      withLatestFrom(this.store.pipe(select(CalendarSelectors.getStartDate))),
       fetch({
-        run: action => {
-          // Your custom service 'load' logic goes here. For now just return a success action...
-          return LoadAppointmentsSuccess({ data: dummyData });
-        },
+        run: (_, startDate) =>
+          this.api
+            .fetch(startOfDay(startDate), endOfDay(addDays(startDate, 6)))
+            .pipe(
+              map(({ data }) =>
+                CalendarActions.LoadAppointmentsSuccess({
+                  data: data.map(entity => ({
+                    ...entity,
+                    start: new Date(entity.start),
+                    end: new Date(entity.end)
+                  }))
+                })
+              )
+            ),
 
-        onError: (action, error) => {
+        onError: (_, error) => {
           console.error('Error', error);
-          return LoadAppointmentsFailure({ error });
+          return CalendarActions.LoadAppointmentsFailure({ error });
         }
       })
     )
   );
 
-  constructor(private actions$: Actions) {}
+  constructor(
+    private readonly actions$: Actions,
+    private readonly api: CalendarApi,
+    private readonly store: Store<fromCalendar.CalendarPartialState>
+  ) {}
 }

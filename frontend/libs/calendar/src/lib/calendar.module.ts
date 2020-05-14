@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -8,10 +8,10 @@ import { EffectsModule } from '@ngrx/effects';
 
 import * as fromCalendar from './+state/calendar.reducer';
 import { CalendarEffects } from './+state/calendar.effects';
-import { CalendarFacade } from './+state/calendar.facade';
 
 import { CalendarComponent } from './calendar.component';
 import { CalendarListComponent } from './list/list.component';
+import { API_URL } from './api-url.token';
 
 @NgModule({
   imports: [
@@ -29,7 +29,13 @@ import { CalendarListComponent } from './list/list.component';
     )
   ],
   declarations: [CalendarComponent, CalendarListComponent],
-  exports: [CalendarComponent],
-  providers: [CalendarFacade]
+  exports: [CalendarComponent]
 })
-export class CalendarModule {}
+export class CalendarModule {
+  static forRoot(apiUrl: string): ModuleWithProviders {
+    return {
+      ngModule: CalendarModule,
+      providers: [{ provide: API_URL, useValue: apiUrl }]
+    };
+  }
+}

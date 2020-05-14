@@ -37,7 +37,7 @@ describe('CalendarEffects', () => {
         a: CalendarActions.LoadAppointmentsSuccess({ data: [] })
       });
 
-      expect(effects.loadCalendar$).toBeObservable(expected);
+      expect(effects.loadAppointments$).toBeObservable(expected);
     });
   });
 });

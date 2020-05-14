@@ -41,6 +41,11 @@ export const getSelected = createSelector(
   (entities, selectedId) => selectedId && entities[selectedId]
 );
 
+export const getStartDate = createSelector(
+  getState,
+  (state: State) => state.startDate
+);
+
 export const getWeekDays = createSelector(
   getState,
   (state: State) => state.weekDays
