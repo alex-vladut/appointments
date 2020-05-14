@@ -1,9 +1,11 @@
-ng-appointments-calendar-list(
-  [appointments]="facade.allAppointments$ | async",
-  [weekDays]="facade.weekDays$ | async",
+ng-appointments-calendar-filter(
   (previous)="facade.previousWeek()",
   (next)="facade.nextWeek()",
   (create)="isCreateModalOpen = true")
+
+ng-appointments-calendar-list(
+  [appointments]="facade.allAppointments$ | async",
+  [weekDays]="facade.weekDays$ | async")
 
 ng-appointments-calendar-create(
   [isVisible]="isCreateModalOpen",

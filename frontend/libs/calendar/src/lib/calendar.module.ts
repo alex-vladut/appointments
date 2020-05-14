@@ -20,6 +20,7 @@ import { CalendarEffects } from './+state/calendar.effects';
 import { CalendarComponent } from './calendar.component';
 import { CalendarListComponent } from './list/list.component';
 import { CalendarCreateComponent } from './create/create.component';
+import { CalendarFilterComponent } from './filter/filter.component';
 import { API_URL } from './api-url.token';
 
 @NgModule({
@@ -48,7 +49,8 @@ import { API_URL } from './api-url.token';
   declarations: [
     CalendarComponent,
     CalendarListComponent,
-    CalendarCreateComponent
+    CalendarCreateComponent,
+    CalendarFilterComponent
   ],
   exports: [CalendarComponent]
 })

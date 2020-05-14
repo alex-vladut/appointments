@@ -2,8 +2,6 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
   OnInit
 } from '@angular/core';
 
@@ -33,10 +31,6 @@ export class CalendarListComponent implements OnInit {
       );
   }
   @Input() weekDays: WeekDayEntity[];
-
-  @Output() next = new EventEmitter();
-  @Output() previous = new EventEmitter();
-  @Output() create = new EventEmitter();
 
   offset: string;
   hours: any[];
