@@ -6,16 +6,15 @@ MIN_DOCKER_SERVER_VERSION = 17.03
 
 backend_build: ## Build the Docker image for backend application
 	@echo "> Building backend Docker image..."
-	@cd ./backend; ./gradlew clean build
+	@cd ./backend; ./gradlew clean build -x test
 	@docker build backend/. -t alex-vladut/appointments
 
 backend_dependencies_up: backend_build ## Start backend application dependencies (e.g. database)
 	@echo "> Starting backend app dependencies..."
 	@docker-compose -f backend/docker-compose.yml up -d
 
-backend_up: backend_dependencies_up ## Starts the backend application in a Docker container
+backend_up: clean backend_dependencies_up ## Starts the backend application in a Docker container
 	@echo "> Starting backend app..."
-	@docker stop alex-vladut-appointments || true && docker rm /alex-vladut-appointments || true
 	@docker run -d --name alex-vladut-appointments -p 8080:8080 -t alex-vladut/appointments
 
 backend_logs: ## Show the logs of the backend application running in a Docker container
