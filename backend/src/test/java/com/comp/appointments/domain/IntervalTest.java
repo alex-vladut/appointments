@@ -3,6 +3,7 @@ package com.comp.appointments.domain;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,8 +17,8 @@ public class IntervalTest {
         final var interval = Interval.create(start, end);
 
         assertNotNull(interval);
-        assertEquals(interval.start(), start);
-        assertEquals(interval.end(), end);
+        assertEquals(interval.start(), start.truncatedTo(ChronoUnit.MINUTES));
+        assertEquals(interval.end(), end.truncatedTo(ChronoUnit.MINUTES));
     }
 
     @Test
@@ -28,8 +29,8 @@ public class IntervalTest {
         final var interval = Interval.create(start, end);
 
         assertNotNull(interval);
-        assertEquals(interval.start(), start);
-        assertEquals(interval.end(), end);
+        assertEquals(interval.start(), start.truncatedTo(ChronoUnit.MINUTES));
+        assertEquals(interval.end(), end.truncatedTo(ChronoUnit.MINUTES));
     }
 
     @Test

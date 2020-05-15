@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 @Embeddable
@@ -43,6 +44,6 @@ public class Interval {
         if (!Arrays.asList(Duration.ofMinutes(15), Duration.ofHours(1)).contains(duration)) {
             throw new IllegalArgumentException("Appointment duration can be 15 minutes or 1 hour");
         }
-        return new Interval(start, end);
+        return new Interval(start.truncatedTo(ChronoUnit.MINUTES), end.truncatedTo(ChronoUnit.MINUTES));
     }
 }
