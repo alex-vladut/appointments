@@ -33,4 +33,10 @@ public class AppointmentsController {
         final var data = service.findAll(from, to);
         return ResponseEntity.ok(new GetAppointmentsResponse(data));
     }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelAppointment(@PathVariable("id") final UUID id) {
+        service.cancel(id);
+        return ResponseEntity.ok().build();
+    }
 }

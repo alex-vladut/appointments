@@ -62,4 +62,15 @@ public class AppointmentsControllerTest {
         assertNotNull(result.getBody());
         assertEquals(data, result.getBody().getData());
     }
+
+    @Test
+    public void shouldCancelAppointment() {
+        final var appointmentId = UUID.randomUUID();
+
+        final var result = controller.cancelAppointment(appointmentId);
+
+        verify(service).cancel(appointmentId);
+        assertNotNull(result);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
 }

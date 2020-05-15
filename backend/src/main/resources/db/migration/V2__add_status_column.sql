@@ -1,0 +1,1 @@
+ALTER TABLE appointment ADD COLUMN status SMALLINT NOT NULL;

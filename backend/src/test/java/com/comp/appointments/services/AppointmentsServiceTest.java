@@ -3,6 +3,7 @@ package com.comp.appointments.services;
 import com.comp.appointments.domain.Appointment;
 import com.comp.appointments.dtos.AppointmentDto;
 import com.comp.appointments.dtos.CreateAppointmentRequest;
+import com.comp.appointments.exceptions.EntityNotFoundException;
 import com.comp.appointments.repositories.AppointmentsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,6 +79,28 @@ public class AppointmentsServiceTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(dto, result.get(0));
+    }
+
+    @Test
+    public void shouldCancelAppointment() {
+        final var appointmentId = UUID.randomUUID();
+        final var appointment = mock(Appointment.class);
+
+        when(repository.findById(appointmentId)).thenReturn(Optional.of(appointment));
+
+        service.cancel(appointmentId);
+
+        verify(appointment).cancel();
+        verify(repository).save(appointment);
+    }
+
+    @Test
+    public void shouldNotCancelAppointment_withEntityNotFound() {
+        final var appointmentId = UUID.randomUUID();
+
+        when(repository.findById(appointmentId)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> service.cancel(appointmentId));
     }
 
 }

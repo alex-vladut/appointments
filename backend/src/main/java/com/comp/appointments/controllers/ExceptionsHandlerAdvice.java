@@ -1,6 +1,7 @@
 package com.comp.appointments.controllers;
 
 import com.comp.appointments.dtos.exceptions.ApiErrorResponse;
+import com.comp.appointments.exceptions.EntityNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,14 @@ public class ExceptionsHandlerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ApiErrorResponse handleIllegalStateException(IllegalStateException ex) {
+        final var response = new ApiErrorResponse(HttpStatus.BAD_REQUEST);
+        response.setMessage(ex.getMessage());
+        return response;
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ApiErrorResponse handleEntityNotFoundException(EntityNotFoundException ex) {
         final var response = new ApiErrorResponse(HttpStatus.BAD_REQUEST);
         response.setMessage(ex.getMessage());
         return response;

@@ -4,6 +4,7 @@ import com.comp.appointments.domain.Appointment;
 import com.comp.appointments.domain.WorkingTime;
 import com.comp.appointments.dtos.AppointmentDto;
 import com.comp.appointments.dtos.CreateAppointmentRequest;
+import com.comp.appointments.exceptions.EntityNotFoundException;
 import com.comp.appointments.repositories.AppointmentsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,13 @@ public class AppointmentsService {
     public List<AppointmentDto> findAll(final ZonedDateTime from, final ZonedDateTime to) {
         final var result = repository.findAllBetween(from, to);
         return result.stream().map(mapper::map).collect(toList());
+    }
+
+    @Transactional
+    public void cancel(final UUID id) {
+        final var appointment = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No appointment found with the given ID."));
+        appointment.cancel();
+        repository.save(appointment);
     }
 }
