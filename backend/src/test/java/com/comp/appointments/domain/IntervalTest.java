@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class IntervalTest {
 

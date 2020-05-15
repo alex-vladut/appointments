@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.comp.appointments.utils.DateTimeGenerator.nextBusinessDay;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +38,7 @@ public class AppointmentsServiceTest {
 
     @Test
     public void shouldCreateAppointment() {
-        final var start = ZonedDateTime.now().plusDays(5).withHour(12);
+        final var start = nextBusinessDay().withHour(12);
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
@@ -55,7 +56,7 @@ public class AppointmentsServiceTest {
 
     @Test
     public void shouldNotCreateAppointment_withAppointmentExistingForInterval() {
-        final var start = ZonedDateTime.now().plusDays(5).withHour(12);
+        final var start = nextBusinessDay().withHour(12);
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
