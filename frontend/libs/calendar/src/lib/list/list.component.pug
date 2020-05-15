@@ -1,10 +1,10 @@
 .container
-  div {{offset}}
+  div {{ offset }}
   div.header(*ngFor="let item of weekDays")
     div {{ item.name }}
     div.day([class.today]="item.isToday") {{ item.day }}
   ng-container(*ngFor="let hour of hours")
     div.hour {{ hour.hour }}
     div(*ngFor="let day of weekDays")
-      a.appointment(*ngFor="let appt of getAppointments(day.date, hour.key)")
-        | {{appt.title}}
+      a.appointment(*ngFor="let appointment of getAppointments(day.date, hour.key)", (click)="view.emit(appointment.id)")
+        | {{ appointment.title }}

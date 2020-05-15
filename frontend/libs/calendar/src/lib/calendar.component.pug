@@ -5,10 +5,19 @@ ng-appointments-calendar-filter(
 
 ng-appointments-calendar-list(
   [appointments]="facade.allAppointments$ | async",
-  [weekDays]="facade.weekDays$ | async")
+  [weekDays]="facade.weekDays$ | async",
+  (view)="facade.openViewAppointment($event)")
 
 ng-appointments-calendar-create(
   [isVisible]="facade.isCreateAppointmentOpen$ | async",
   [error]="facade.error$ | async",
   (cancel)="facade.closeCreateAppointment()",
   (save)="facade.createAppointment($event)")
+
+ng-appointments-calendar-view(
+  [appointment]="facade.selectedAppointment$ | async",
+  [isVisible]="facade.isViewAppointmentOpen$ | async",
+  [cancelState]="facade.cancelState$ | async",
+  [error]="facade.error$ | async",
+  (cancel)="facade.closeViewAppointment()",
+  (cancelAppointment)="facade.cancelAppointment($event)")

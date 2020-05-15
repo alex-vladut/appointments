@@ -1,0 +1,14 @@
+nz-modal(*ngIf="isVisible", [(nzVisible)]="isVisible" nzTitle="Appointment details", [nzFooter]="modalFooter", (nzOnCancel)="cancel.emit()")
+  nz-alert(*ngIf="!!error" nzType="error", [nzDescription]="error", nzShowIcon)
+  nz-alert(*ngIf="cancelState === 'LOADED'" nzType="success" nzDescription="Your appointment was cancelled", nzShowIcon)
+  .actions
+    button(nz-button, nzType="primary", nzDanger, [disabled]="cancelState === 'LOADING' || cancelState === 'LOADED'", (click)="handleCancelAppointment()")
+      i(nz-icon, nzType="close-circle")
+      | Cancel Appointment
+  hr
+  nz-descriptions
+    nz-descriptions-item(nzTitle="Title" nzSpan="3") {{ appointment.title }}
+    nz-descriptions-item(nzTitle="Starts at" nzSpan="3") {{ appointment.start | date:'short' }}
+    nz-descriptions-item(nzTitle="Duration" nzSpan="3") {{ appointment.duration }} minutes
+  ng-template(#modalFooter)
+    button(nz-button, nzType="default", (click)="cancel.emit()") Close

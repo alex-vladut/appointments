@@ -7,7 +7,7 @@ import { StoreModule, Store } from '@ngrx/store';
 
 import { NxModule } from '@nrwl/angular';
 
-import { AppointmentEntity } from './calendar.models';
+import { AppointmentEntity } from '../calendar.models';
 import { CalendarEffects } from './calendar.effects';
 import { CalendarFacade } from './calendar.facade';
 

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { AppointmentEntity } from './calendar.models';
+import { AppointmentEntity } from '../calendar.models';
 
 const _ = (action: string) => `[Calendar] ${action}`;
 
@@ -24,6 +24,27 @@ export const OpenCreateAppointment = createAction(_('Open Create Appointment'));
 
 export const CloseCreateAppointment = createAction(
   _('Close Create Appointment')
+);
+
+export const OpenViewAppointment = createAction(
+  _('Open View Appointment'),
+  props<{ id: string }>()
+);
+
+export const CloseViewAppointment = createAction(_('Close View Appointment'));
+
+export const CancelAppointment = createAction(
+  _('Cancel Appointment'),
+  props<{ id: string }>()
+);
+
+export const CancelAppointmentSuccess = createAction(
+  _('Cancel Appointment Success')
+);
+
+export const CancelAppointmentFailure = createAction(
+  _('Cancel Appointment Failure'),
+  props<{ error: any }>()
 );
 
 export const CreateAppointment = createAction(

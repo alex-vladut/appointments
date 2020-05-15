@@ -52,3 +52,13 @@ export const getCreateAppointmentOpen = createSelector(
   getState,
   (state: State) => state.isCreateAppointmentOpen
 );
+
+export const getViewAppointmentOpen = createSelector(
+  getState,
+  (state: State) => state.isViewAppointmentOpen
+);
+
+export const getCancelState = createSelector(
+  getState,
+  (state: State) => state.cancelState
+);

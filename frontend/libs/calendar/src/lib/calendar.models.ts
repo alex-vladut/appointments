@@ -6,6 +6,7 @@ export interface AppointmentEntity {
   title: string;
   start: Date;
   end: Date;
+  duration: number;
 }
 
 /**
@@ -17,3 +18,5 @@ export interface WeekDayEntity {
   date: string;
   isToday: boolean;
 }
+
+export type ApiState = 'INIT' | 'LOADING' | 'LOADED' | 'ERROR';

@@ -1,4 +1,4 @@
-import { AppointmentEntity } from './calendar.models';
+import { AppointmentEntity } from '../calendar.models';
 import * as CalendarActions from './calendar.actions';
 import { State, initialState, reducer } from './calendar.reducer';
 

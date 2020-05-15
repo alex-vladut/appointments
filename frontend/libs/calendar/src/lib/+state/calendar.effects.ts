@@ -8,7 +8,13 @@ import * as CalendarActions from './calendar.actions';
 import { CalendarApi } from './calendar.api';
 import * as CalendarSelectors from './calendar.selectors';
 import * as fromCalendar from './calendar.reducer';
-import { addDays, endOfDay, startOfDay, addMinutes } from 'date-fns';
+import {
+  addDays,
+  endOfDay,
+  startOfDay,
+  addMinutes,
+  differenceInMinutes
+} from 'date-fns';
 
 @Injectable({ providedIn: 'root' })
 export class CalendarEffects {
@@ -18,7 +24,8 @@ export class CalendarEffects {
         CalendarActions.LoadAppointments,
         CalendarActions.NextWeek,
         CalendarActions.PreviousWeek,
-        CalendarActions.CreateAppointmentSuccess
+        CalendarActions.CreateAppointmentSuccess,
+        CalendarActions.CancelAppointmentSuccess
       ),
       withLatestFrom(this.store.pipe(select(CalendarSelectors.getStartDate))),
       fetch({
@@ -28,11 +35,7 @@ export class CalendarEffects {
             .pipe(
               map(({ data }) =>
                 CalendarActions.LoadAppointmentsSuccess({
-                  data: data.map(entity => ({
-                    ...entity,
-                    start: new Date(entity.start),
-                    end: new Date(entity.end)
-                  }))
+                  data: data.map(mapToEntity)
                 })
               )
             ),
@@ -65,6 +68,24 @@ export class CalendarEffects {
     )
   );
 
+  cancelAppointment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CalendarActions.CancelAppointment),
+      pessimisticUpdate({
+        run: action =>
+          this.api
+            .cancel(action.id)
+            .pipe(map(() => CalendarActions.CancelAppointmentSuccess())),
+        onError: (_, error) => {
+          console.error('Error', error);
+          return CalendarActions.CancelAppointmentFailure({
+            error: error.error
+          });
+        }
+      })
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly api: CalendarApi,
@@ -76,4 +97,11 @@ const buildAppointment = (appointment: any) => ({
   title: appointment.title,
   start: (appointment.date as Date).toISOString(),
   end: addMinutes(appointment.date, appointment.duration).toISOString()
+});
+
+const mapToEntity = (item: any) => ({
+  ...item,
+  start: new Date(item.start),
+  end: new Date(item.end),
+  duration: differenceInMinutes(new Date(item.end), new Date(item.start))
 });

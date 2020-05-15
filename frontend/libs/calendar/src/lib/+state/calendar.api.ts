@@ -7,7 +7,7 @@ import {
 
 import { API_URL } from '../api-url.token';
 import { Observable } from 'rxjs';
-import { AppointmentEntity } from './calendar.models';
+import { AppointmentEntity } from '../calendar.models';
 
 /**
  * Override Angular default query string encoding strategy because ISO formatted dates aree not properly passed to the server
@@ -44,5 +44,12 @@ export class CalendarApi {
 
   create(appointment: any) {
     return this.http.post(`${this.apiUrl}/appointments`, appointment);
+  }
+
+  cancel(appointmentId: string) {
+    return this.http.post(
+      `${this.apiUrl}/appointments/${appointmentId}/cancel`,
+      {}
+    );
   }
 }

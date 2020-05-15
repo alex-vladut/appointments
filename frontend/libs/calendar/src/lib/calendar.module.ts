@@ -10,6 +10,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -21,6 +22,7 @@ import { CalendarComponent } from './calendar.component';
 import { CalendarListComponent } from './list/list.component';
 import { CalendarCreateComponent } from './create/create.component';
 import { CalendarFilterComponent } from './filter/filter.component';
+import { CalendarViewComponent } from './view/view.component';
 import { API_URL } from './api-url.token';
 
 @NgModule({
@@ -35,6 +37,7 @@ import { API_URL } from './api-url.token';
     NzTimePickerModule,
     NzRadioModule,
     NzAlertModule,
+    NzDescriptionsModule,
     ReactiveFormsModule,
     StoreModule.forFeature(
       fromCalendar.CALENDAR_FEATURE_KEY,
@@ -50,7 +53,8 @@ import { API_URL } from './api-url.token';
     CalendarComponent,
     CalendarListComponent,
     CalendarCreateComponent,
-    CalendarFilterComponent
+    CalendarFilterComponent,
+    CalendarViewComponent
   ],
   exports: [CalendarComponent]
 })

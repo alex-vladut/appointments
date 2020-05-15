@@ -1,6 +1,6 @@
 import { getDay, isSameDay, addDays } from 'date-fns';
 
-import { WeekDayEntity } from './+state/calendar.models';
+import { WeekDayEntity } from './calendar.models';
 
 export const range = (start: number, end: number) =>
   Array(end - start + 1)

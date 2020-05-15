@@ -2,11 +2,13 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 import { range, buildOffset } from '../utils';
-import { AppointmentEntity, WeekDayEntity } from '../+state/calendar.models';
+import { AppointmentEntity, WeekDayEntity } from '../calendar.models';
 
 @Component({
   selector: 'ng-appointments-calendar-list',
@@ -31,6 +33,8 @@ export class CalendarListComponent implements OnInit {
       );
   }
   @Input() weekDays: WeekDayEntity[];
+
+  @Output() view = new EventEmitter<string>();
 
   offset: string;
   hours: any[];

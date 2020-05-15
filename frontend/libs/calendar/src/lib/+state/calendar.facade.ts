@@ -18,6 +18,10 @@ export class CalendarFacade {
   isCreateAppointmentOpen$ = this.store.pipe(
     select(CalendarSelectors.getCreateAppointmentOpen)
   );
+  isViewAppointmentOpen$ = this.store.pipe(
+    select(CalendarSelectors.getViewAppointmentOpen)
+  );
+  cancelState$ = this.store.pipe(select(CalendarSelectors.getCancelState));
 
   constructor(
     private readonly store: Store<fromCalendar.CalendarPartialState>
@@ -35,8 +39,20 @@ export class CalendarFacade {
     this.store.dispatch(CalendarActions.CloseCreateAppointment());
   }
 
+  openViewAppointment(id: string) {
+    this.store.dispatch(CalendarActions.OpenViewAppointment({ id }));
+  }
+
+  closeViewAppointment() {
+    this.store.dispatch(CalendarActions.CloseViewAppointment());
+  }
+
   createAppointment(appointment: any) {
     this.store.dispatch(CalendarActions.CreateAppointment({ appointment }));
+  }
+
+  cancelAppointment(id: string) {
+    this.store.dispatch(CalendarActions.CancelAppointment({ id }));
   }
 
   nextWeek() {
