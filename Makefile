@@ -9,21 +9,16 @@ backend_build: ## Build the Docker image for backend application
 	@cd ./backend; ./gradlew clean build -x test
 	@docker build backend/. -t alex-vladut/appointments
 
-backend_dependencies_up: backend_build ## Start backend application dependencies (e.g. database)
-	@echo "> Starting backend app dependencies..."
-	@docker-compose -f backend/docker-compose.yml up -d
-
-backend_up: clean backend_dependencies_up ## Starts the backend application in a Docker container
+backend_up: clean backend_build ## Starts the backend application in a Docker container
 	@echo "> Starting backend app..."
-	@docker run -d --name alex-vladut-appointments -p 8080:8080 -t alex-vladut/appointments
+	@docker-compose -f backend/docker-compose-all.yml up -d
 
 backend_logs: ## Show the logs of the backend application running in a Docker container
 	@docker logs --follow alex-vladut-appointments
 
 clean: ## Cleans up all the Docker containers left running
 	@echo "> Cleaning Docker containers..."
-	@docker-compose -f backend/docker-compose.yml down || true
-	@docker stop alex-vladut-appointments || true && docker rm /alex-vladut-appointments || true
+	@docker-compose -f backend/docker-compose-all.yml down || true
 
 client_up: ## Starts the client application
 	@echo "> Starting frontend application on http://localhost:4200"

@@ -8,7 +8,7 @@ Before starting the application make sure you have the following tools installed
 - [Java version v11+](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)
 - [Docker v17+](https://docs.docker.com/desktop/#download-and-install)
 - [Docker-Compose](https://docs.docker.com/compose/install/)
-- [Node version v10+](https://nodejs.org/en/download/)
+- [Node version v12+](https://nodejs.org/en/download/)
 
 To confirm you have the required tools installed on your machine, please run the following commands in a terminal:
 
@@ -45,7 +45,11 @@ Start the application with the following command:
 $ make up
 ```
 
-**Note:** It may take 2-3 minutes for the client application to start on the first installation.
+**Note:** It may take 2-3 minutes for the client application to start on the first installation. Wait until a message similar to the following will be displayed:
+```
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+: Compiled successfully.
+```
 
 Once the command finishes executing, the application should be available at http://localhost:4200/.
 
