@@ -12,9 +12,9 @@ services:
   app:
     image: alex-vladut/appointments
     container_name: alex-vladut-appointments
-    environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/appointments
-    ports:
-      - 8080:8080
     depends_on:
       - db
+    environment:
+      DATABASE_HOST: db
+    ports:
+      - 8080:8080
