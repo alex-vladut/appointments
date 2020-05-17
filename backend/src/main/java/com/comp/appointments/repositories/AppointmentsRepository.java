@@ -15,9 +15,11 @@ public interface AppointmentsRepository extends CrudRepository<Appointment, UUID
     @Query("select count(a.id)" +
             " from Appointment a where" +
             " a.status = 0 and" +
-            " (:start >= a.interval.start and :start < a.interval.end) or" +
-            " (:end > a.interval.start and :end <= a.interval.end) or" +
-            " (a.interval.start >= :start and a.interval.end <= :end)" +
+            " (" +
+            "  (:start >= a.interval.start and :start < a.interval.end) or" +
+            "  (:end > a.interval.start and :end <= a.interval.end) or" +
+            "  (a.interval.start >= :start and a.interval.end <= :end)" +
+            " )" +
             " group by a.id")
     Integer overlapping(@Param("start") ZonedDateTime start, @Param("end") ZonedDateTime end);
 

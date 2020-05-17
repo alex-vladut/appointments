@@ -24,11 +24,11 @@ public class AppointmentsService {
 
     @Transactional
     public UUID create(final CreateAppointmentRequest request) {
-        final var overlapping = repository.overlapping(request.getStart(), request.getEnd());
+        final var interval = new WorkingTime().createInterval(request.getStart(), request.getEnd());
+        final var overlapping = repository.overlapping(interval.start(), interval.end());
         if (overlapping != null && overlapping > 0) {
             throw new IllegalStateException("There is already an appointment booked for the selected time interval");
         }
-        final var interval = new WorkingTime().createInterval(request.getStart(), request.getEnd());
         final var appointment = Appointment.create(request.getTitle(), interval);
         repository.save(appointment);
         return appointment.id();
