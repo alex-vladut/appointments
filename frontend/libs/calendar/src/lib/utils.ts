@@ -1,4 +1,4 @@
-import { getDay, isSameDay, addDays } from 'date-fns';
+import { getDay, isSameDay, addDays, format } from 'date-fns';
 
 import { WeekDayEntity } from './calendar.models';
 
@@ -25,16 +25,16 @@ const days = {
   3: 'Wed.',
   4: 'Thu.',
   5: 'Fri.',
-  6: 'Sat.'
+  6: 'Sat.',
 };
 
 export const createWeekDays = (firstDayOfWeek: Date): WeekDayEntity[] =>
-  range(0, 6).map(i => {
+  range(0, 6).map((i) => {
     const date = addDays(firstDayOfWeek, i);
     return {
       name: days[getDay(date)],
       day: date.getDate(),
-      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
-      isToday: isSameDay(date, new Date())
+      date,
+      isToday: isSameDay(date, new Date()),
     };
   });

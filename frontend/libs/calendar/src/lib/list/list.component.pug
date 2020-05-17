@@ -3,8 +3,8 @@
   div.header(*ngFor="let item of weekDays")
     div {{ item.name }}
     div.day([class.today]="item.isToday") {{ item.day }}
-  ng-container(*ngFor="let hour of hours")
-    div.hour {{ hour.hour }}
-    div(*ngFor="let day of weekDays")
-      a.appointment(*ngFor="let appointment of getAppointments(day.date, hour.key)", (click)="view.emit(appointment.id)")
+  ng-container(*ngFor="let cell of cells")
+    div.hour {{ cell.hour }}
+    div(*ngFor="let day of cell.days", [class.past]="day.isPast")
+      a.appointment(*ngFor="let appointment of day.appointments", (click)="view.emit(appointment.id)")
         | {{ appointment.title }}

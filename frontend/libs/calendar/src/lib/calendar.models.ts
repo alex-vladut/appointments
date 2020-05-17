@@ -15,7 +15,7 @@ export interface AppointmentEntity {
 export interface WeekDayEntity {
   name: string;
   day: number;
-  date: string;
+  date: Date;
   isToday: boolean;
 }
 
