@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.comp.appointments.utils.DateTimeGenerator.nextBusinessDay;
@@ -24,6 +25,7 @@ public class BookAppointmentsSteps extends SpringIntegrationTest {
     private JdbcTemplate jdbcTemplate;
 
     private ZonedDateTime date;
+    private String appointmentId;
 
     @Before
     public void setUp() {
@@ -41,6 +43,34 @@ public class BookAppointmentsSteps extends SpringIntegrationTest {
         bookAppointments(table, 201);
     }
 
+    @Given("an appointment was booked at {int} PM")
+    public void an_appointment_was_booked_at(Integer hour) {
+        final var start = date.withHour(hour).withMinute(0);
+        final var appointment = new Appointment("My appointment", start.toString(), start.plusHours(1).toString());
+        final var response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(appointment)
+                .when()
+                .post("/appointments");
+
+        appointmentId = response.getHeader("Location").split("/")[2];
+        response.then()
+                .assertThat()
+                .statusCode(201);
+    }
+
+    @Given("the appointment was cancelled")
+    public void the_appointment_was_cancelled() {
+        RestAssured.given()
+                .basePath("/appointments")
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/{appointmentId}/cancel", appointmentId)
+                .then()
+                .assertThat()
+                .statusCode(200);
+    }
+
     @When("I ask for the following appointments to be booked")
     public void i_ask_for_multiple_appointments_to_be_booked(final DataTable table) {
         bookAppointments(table, 201);
@@ -51,9 +81,24 @@ public class BookAppointmentsSteps extends SpringIntegrationTest {
         bookAppointments(table, 400);
     }
 
+    @When("I ask to book another appointment at {int} PM")
+    public void i_ask_to_book_another_appointment_at(final Integer hour) {
+        final var start = date.withHour(hour).withMinute(0);
+        final var appointment = new Appointment("My new appointment", start.toString(), start.plusHours(1).toString());
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(appointment)
+                .when()
+                .post("/appointments")
+                .then()
+                .assertThat()
+                .statusCode(201);
+    }
+
     @Then("I should have {int} appointments")
     @Then("no new appointment should be booked and I should still have {int} appointments")
-    public void i_should_have_appointments(Integer size) {
+    @Then("the request should be successful and I should have {int} appointment")
+    public void i_should_have_appointments(final Integer size) {
         RestAssured.given()
                 .queryParam("from", date.minusDays(1).toString())
                 .queryParam("to", date.plusDays(1).toString())

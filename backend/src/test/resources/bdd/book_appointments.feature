@@ -20,3 +20,9 @@ Feature: Book new appointments at given times
       | Craig's appointment  | 12 | 30 | 15 |
       | Craig's appointment  | 13 | 30 | 60 |
     Then no new appointment should be booked and I should still have 2 appointments
+
+  Scenario: Book again a spot of a cancelled appointment
+    Given an appointment was booked at 12 PM
+    And the appointment was cancelled
+    When I ask to book another appointment at 12 PM
+    Then the request should be successful and I should have 1 appointment
