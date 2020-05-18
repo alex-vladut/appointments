@@ -158,6 +158,38 @@
           "style": "scss"
         }
       }
+    },
+    "api-state": {
+      "projectType": "library",
+      "root": "libs/api-state",
+      "sourceRoot": "libs/api-state/src",
+      "prefix": "ng-appointments",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api-state/tsconfig.lib.json",
+              "libs/api-state/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api-state/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api-state/jest.config.js",
+            "tsConfig": "libs/api-state/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/api-state/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

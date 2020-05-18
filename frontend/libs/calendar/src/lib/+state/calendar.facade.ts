@@ -8,12 +8,12 @@ import * as CalendarSelectors from './calendar.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CalendarFacade {
-  loaded$ = this.store.pipe(select(CalendarSelectors.getLoaded));
-  error$ = this.store.pipe(select(CalendarSelectors.getError));
   allAppointments$ = this.store.pipe(
     select(CalendarSelectors.getAllAppointments)
   );
-  selectedAppointment$ = this.store.pipe(select(CalendarSelectors.getSelected));
+  selectedAppointment$ = this.store.pipe(
+    select(CalendarSelectors.getSelectedAppointment)
+  );
   weekDays$ = this.store.pipe(select(CalendarSelectors.getWeekDays));
   isCreateAppointmentOpen$ = this.store.pipe(
     select(CalendarSelectors.getCreateAppointmentOpen)
@@ -21,6 +21,7 @@ export class CalendarFacade {
   isViewAppointmentOpen$ = this.store.pipe(
     select(CalendarSelectors.getViewAppointmentOpen)
   );
+  createState$ = this.store.pipe(select(CalendarSelectors.getCreateState));
   cancelState$ = this.store.pipe(select(CalendarSelectors.getCancelState));
 
   constructor(

@@ -1,8 +1,8 @@
 nz-modal(*ngIf="isVisible", [(nzVisible)]="isVisible" nzTitle="Appointment details", [nzFooter]="modalFooter", (nzOnCancel)="cancel.emit()")
-  nz-alert(*ngIf="!!error" nzType="error", [nzDescription]="error", nzShowIcon)
-  nz-alert(*ngIf="cancelState === 'LOADED'" nzType="success" nzDescription="Your appointment was cancelled", nzShowIcon)
+  nz-alert(*ngIf="cancelState | isError" nzType="error", [nzDescription]="cancelState.error", nzShowIcon)
+  nz-alert(*ngIf="cancelState | isLoaded" nzType="success" nzDescription="Your appointment was cancelled", nzShowIcon)
   .actions
-    button(nz-button, nzType="primary", nzDanger, [disabled]="cancelState === 'LOADING' || cancelState === 'LOADED'", (click)="handleCancelAppointment()")
+    button(nz-button, nzType="primary", nzDanger, [disabled]="(cancelState | isLoading) || (cancelState | isLoaded)", (click)="handleCancelAppointment()")
       i(nz-icon, nzType="close-circle")
       | Cancel Appointment
   hr

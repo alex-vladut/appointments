@@ -18,5 +18,3 @@ export interface WeekDayEntity {
   date: Date;
   isToday: boolean;
 }
-
-export type ApiState = 'INIT' | 'LOADING' | 'LOADED' | 'ERROR';

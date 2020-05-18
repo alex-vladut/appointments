@@ -10,7 +10,7 @@ ng-appointments-calendar-list(
 
 ng-appointments-calendar-create(
   [isVisible]="facade.isCreateAppointmentOpen$ | async",
-  [error]="facade.error$ | async",
+  [createState]="facade.createState$ | async",
   (cancel)="facade.closeCreateAppointment()",
   (save)="facade.createAppointment($event)")
 
@@ -18,6 +18,5 @@ ng-appointments-calendar-view(
   [appointment]="facade.selectedAppointment$ | async",
   [isVisible]="facade.isViewAppointmentOpen$ | async",
   [cancelState]="facade.cancelState$ | async",
-  [error]="facade.error$ | async",
   (cancel)="facade.closeViewAppointment()",
   (cancelAppointment)="facade.cancelAppointment($event)")

@@ -1,23 +1,27 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { startOfWeek, startOfDay, addWeeks, subWeeks } from 'date-fns';
+import {
+  ApiState,
+  ApiStateResult,
+  ApiStateError,
+} from '@ng-appointments/api-state';
 
 import * as CalendarActions from './calendar.actions';
-import { AppointmentEntity, WeekDayEntity, ApiState } from '../calendar.models';
+import { AppointmentEntity, WeekDayEntity } from '../calendar.models';
 import { createWeekDays } from '../utils';
 
 export const CALENDAR_FEATURE_KEY = 'calendar';
 
 export interface State extends EntityState<AppointmentEntity> {
-  selectedId?: string | number;
-  loaded: boolean;
-  createState: ApiState;
-  error?: string | null;
+  fetchState: ApiStateResult;
+  createState: ApiStateResult;
   startDate: Date;
   weekDays: WeekDayEntity[];
   isCreateAppointmentOpen: boolean;
   isViewAppointmentOpen: boolean;
-  cancelState: ApiState;
+  cancelState: ApiStateResult;
+  selectedAppointment?: AppointmentEntity;
 }
 
 export interface CalendarPartialState {
@@ -31,97 +35,94 @@ export const calendarAdapter: EntityAdapter<AppointmentEntity> = createEntityAda
 const firstDayOfWeek = startOfDay(startOfWeek(new Date()));
 
 export const initialState: State = calendarAdapter.getInitialState({
+  fetchState: ApiState.INIT,
   startDate: firstDayOfWeek,
   weekDays: createWeekDays(firstDayOfWeek),
-  createState: 'INIT',
-  loaded: false,
+  createState: ApiState.INIT,
   isCreateAppointmentOpen: false,
   isViewAppointmentOpen: false,
-  cancelState: 'INIT'
+  cancelState: ApiState.INIT,
 });
 
 const calendarReducer = createReducer(
   initialState,
-  on(CalendarActions.LoadAppointments, state => ({
+  on(CalendarActions.LoadAppointments, (state) => ({
     ...state,
-    loaded: false,
-    error: null
+    fetchState: ApiState.LOADING,
   })),
   on(CalendarActions.LoadAppointmentsSuccess, (state, { data }) =>
-    calendarAdapter.setAll(data, { ...state, loaded: true })
+    calendarAdapter.setAll(data, { ...state, fetchState: ApiState.LOADED })
   ),
   on(CalendarActions.LoadAppointmentsFailure, (state, { error }) => ({
     ...state,
-    error
+    fetchState: new ApiStateError(error),
   })),
-  on(CalendarActions.NextWeek, state => {
+  on(CalendarActions.NextWeek, (state) => {
     const newFirstWeekDay = addWeeks(state.startDate, 1);
     return {
       ...state,
       startDate: newFirstWeekDay,
-      weekDays: createWeekDays(newFirstWeekDay)
+      weekDays: createWeekDays(newFirstWeekDay),
     };
   }),
-  on(CalendarActions.PreviousWeek, state => {
+  on(CalendarActions.PreviousWeek, (state) => {
     const newFirstWeekDay = subWeeks(state.startDate, 1);
     return {
       ...state,
       startDate: newFirstWeekDay,
-      weekDays: createWeekDays(newFirstWeekDay)
+      weekDays: createWeekDays(newFirstWeekDay),
     };
   }),
-  on(CalendarActions.OpenCreateAppointment, state => ({
+  on(CalendarActions.OpenCreateAppointment, (state) => ({
     ...state,
     isCreateAppointmentOpen: true,
-    error: null
+    createState: ApiState.INIT,
   })),
-  on(CalendarActions.CloseCreateAppointment, state => ({
+  on(CalendarActions.CloseCreateAppointment, (state) => ({
     ...state,
-    isCreateAppointmentOpen: false
+    isCreateAppointmentOpen: false,
   })),
   on(CalendarActions.OpenViewAppointment, (state, { id }) => ({
     ...state,
-    selectedId: id,
+    selectedAppointment: state.entities[id],
     isViewAppointmentOpen: true,
-    error: null
   })),
-  on(CalendarActions.CloseViewAppointment, state => ({
+  on(CalendarActions.CloseViewAppointment, (state) => ({
     ...state,
-    selectedId: null,
+    selectedAppointment: null,
     isViewAppointmentOpen: false,
-    cancelState: 'INIT' as ApiState
+    cancelState: ApiState.INIT,
   })),
-  on(CalendarActions.CancelAppointment, state => ({
+  on(CalendarActions.CancelAppointment, (state) => ({
     ...state,
-    cancelState: 'LOADING' as ApiState
+    cancelState: ApiState.LOADING,
   })),
-  on(CalendarActions.CancelAppointmentSuccess, state => ({
+  on(CalendarActions.CancelAppointmentSuccess, (state) => ({
     ...state,
-    cancelState: 'LOADED' as ApiState
+    cancelState: ApiState.LOADED,
   })),
   on(CalendarActions.CancelAppointmentFailure, (state, { error }) => ({
     ...state,
-    cancelState: 'ERROR' as ApiState,
-    error:
+    cancelState: new ApiStateError(
       error.message ||
-      'There was an error while cancelling your appointment. Please try again later.'
+        'There was an error while cancelling your appointment. Please try again later.'
+    ),
   })),
-  on(CalendarActions.CreateAppointment, state => ({
+  on(CalendarActions.CreateAppointment, (state) => ({
     ...state,
-    createState: 'LOADING' as ApiState
+    createState: ApiState.LOADING,
   })),
-  on(CalendarActions.CreateAppointmentSuccess, state => ({
+  on(CalendarActions.CreateAppointmentSuccess, (state) => ({
     ...state,
-    createState: 'LOADED' as ApiState,
-    error: null,
-    isCreateAppointmentOpen: false
+    createState: ApiState.LOADED,
+    isCreateAppointmentOpen: false,
   })),
   on(CalendarActions.CreateAppointmentFailure, (state, { error }) => ({
     ...state,
-    createState: 'ERROR' as ApiState,
-    error:
+    createState: new ApiStateError(
       error.message ||
-      'There was an error while saving your appointment. Please check the input data and try again.'
+        'There was an error while saving your appointment. Please check the input data and try again.'
+    ),
   }))
 );
 

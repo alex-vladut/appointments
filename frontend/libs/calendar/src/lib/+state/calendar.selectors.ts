@@ -3,7 +3,7 @@ import {
   CALENDAR_FEATURE_KEY,
   State,
   CalendarPartialState,
-  calendarAdapter
+  calendarAdapter,
 } from './calendar.reducer';
 
 export const getState = createFeatureSelector<CalendarPartialState, State>(
@@ -11,13 +11,6 @@ export const getState = createFeatureSelector<CalendarPartialState, State>(
 );
 
 const { selectAll, selectEntities } = calendarAdapter.getSelectors();
-
-export const getLoaded = createSelector(
-  getState,
-  (state: State) => state.loaded
-);
-
-export const getError = createSelector(getState, (state: State) => state.error);
 
 export const getAllAppointments = createSelector(getState, (state: State) =>
   selectAll(state)
@@ -27,15 +20,9 @@ export const getEntities = createSelector(getState, (state: State) =>
   selectEntities(state)
 );
 
-export const getSelectedId = createSelector(
+export const getSelectedAppointment = createSelector(
   getState,
-  (state: State) => state.selectedId
-);
-
-export const getSelected = createSelector(
-  getEntities,
-  getSelectedId,
-  (entities, selectedId) => selectedId && entities[selectedId]
+  (state: State) => state.selectedAppointment
 );
 
 export const getStartDate = createSelector(
@@ -56,6 +43,11 @@ export const getCreateAppointmentOpen = createSelector(
 export const getViewAppointmentOpen = createSelector(
   getState,
   (state: State) => state.isViewAppointmentOpen
+);
+
+export const getCreateState = createSelector(
+  getState,
+  (state: State) => state.createState
 );
 
 export const getCancelState = createSelector(

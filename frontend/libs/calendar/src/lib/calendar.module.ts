@@ -15,6 +15,8 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { ApiStateModule } from '@ng-appointments/api-state';
+
 import * as fromCalendar from './+state/calendar.reducer';
 import { CalendarEffects } from './+state/calendar.effects';
 
@@ -39,6 +41,7 @@ import { API_URL } from './api-url.token';
     NzAlertModule,
     NzDescriptionsModule,
     ReactiveFormsModule,
+    ApiStateModule,
     StoreModule.forFeature(
       fromCalendar.CALENDAR_FEATURE_KEY,
       fromCalendar.reducer
@@ -47,22 +50,22 @@ import { API_URL } from './api-url.token';
     StoreModule.forFeature(
       fromCalendar.CALENDAR_FEATURE_KEY,
       fromCalendar.reducer
-    )
+    ),
   ],
   declarations: [
     CalendarComponent,
     CalendarListComponent,
     CalendarCreateComponent,
     CalendarFilterComponent,
-    CalendarViewComponent
+    CalendarViewComponent,
   ],
-  exports: [CalendarComponent]
+  exports: [CalendarComponent],
 })
 export class CalendarModule {
   static forRoot(apiUrl: string): ModuleWithProviders {
     return {
       ngModule: CalendarModule,
-      providers: [{ provide: API_URL, useValue: apiUrl }]
+      providers: [{ provide: API_URL, useValue: apiUrl }],
     };
   }
 }

@@ -1,10 +1,10 @@
-nz-modal([(nzVisible)]="isVisible" nzTitle="Book your appointment", (nzOnCancel)="cancel.emit()", (nzOnOk)="handleSave()")
-  nz-alert(*ngIf="!!error" nzType="error", [nzDescription]="error", nzShowIcon)
+nz-modal([(nzVisible)]="isVisible" nzTitle="Book your appointment", [nzFooter]="modalFooter", (nzOnCancel)="cancel.emit()")
+  nz-alert(*ngIf="createState | isError" nzType="error", [nzDescription]="createState.error", nzShowIcon)
   form(nz-form, nzLayout="vertical", [formGroup]="form",  (ngSubmit)="handleSave()", #formVar = "ngForm")
     nz-form-item
       nz-form-label(nzFor="title" nzRequired) Title
       nz-form-control([nzValidateStatus]="form.controls['title']" nzErrorTip="The title should be between 3 and 250 characters long!")
-        input(nz-input placeholder="Title" formControlName="title")
+        input(nz-input, placeholder="Title" formControlName="title")
     nz-form-item
       nz-form-label(nzFor="date", nzRequired) Date and Time
       nz-form-control([nzValidateStatus]="form.controls['date']" nzErrorTip="Please select a date for your appointment!")
@@ -15,3 +15,6 @@ nz-modal([(nzVisible)]="isVisible" nzTitle="Book your appointment", (nzOnCancel)
         nz-radio-group(nzButtonStyle="solid" formControlName="duration")
           label(nz-radio-button nzValue="60") 1 hour
           label(nz-radio-button nzValue="15") 15 minutes
+  ng-template(#modalFooter)
+    button(nz-button, nzType="default", (click)="cancel.emit()") Close
+    button(nz-button, nzType="primary", [disabled]="form.invalid", (click)="handleSave()") Save

@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ng-appointments/calendar": ["libs/calendar/src/index.ts"]
+      "@ng-appointments/calendar": ["libs/calendar/src/index.ts"],
+      "@ng-appointments/api-state": ["libs/api-state/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
