@@ -1,10 +1,12 @@
 package com.comp.appointments.services;
 
-import com.comp.appointments.domain.Appointment;
+import com.comp.appointments.domain.BookedAppointment;
+import com.comp.appointments.domain.CancelledAppointment;
 import com.comp.appointments.dtos.AppointmentDto;
 import com.comp.appointments.dtos.CreateAppointmentRequest;
 import com.comp.appointments.exceptions.EntityNotFoundException;
-import com.comp.appointments.repositories.AppointmentsRepository;
+import com.comp.appointments.repositories.BookedAppointmentsRepository;
+import com.comp.appointments.repositories.CancelledAppointmentsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +27,9 @@ import static org.mockito.Mockito.*;
 public class AppointmentsServiceTest {
 
     @Mock
-    private AppointmentsRepository repository;
+    private BookedAppointmentsRepository bookedRepository;
+    @Mock
+    private CancelledAppointmentsRepository cancelledRepository;
     @Mock
     private DomainToDtoMapper mapper;
 
@@ -33,7 +37,7 @@ public class AppointmentsServiceTest {
 
     @BeforeEach
     public void setUp() {
-        service = new AppointmentsService(repository, mapper);
+        service = new AppointmentsService(bookedRepository, cancelledRepository, mapper);
     }
 
     @Test
@@ -42,12 +46,12 @@ public class AppointmentsServiceTest {
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
-        final var captor = ArgumentCaptor.forClass(Appointment.class);
-        when(repository.overlapping(request.getStart(), request.getEnd())).thenReturn(0);
+        final var captor = ArgumentCaptor.forClass(BookedAppointment.class);
+        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(0);
 
         final UUID id = service.create(request);
 
-        verify(repository).save(captor.capture());
+        verify(bookedRepository).save(captor.capture());
         assertEquals(captor.getValue().id(), id);
         assertNotNull(captor.getValue().interval());
         assertEquals(captor.getValue().interval().start(), request.getStart());
@@ -60,7 +64,7 @@ public class AppointmentsServiceTest {
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
-        when(repository.overlapping(request.getStart(), request.getEnd())).thenReturn(3);
+        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(3);
 
         assertThrows(IllegalStateException.class, () -> service.create(request));
     }
@@ -69,10 +73,10 @@ public class AppointmentsServiceTest {
     public void shouldFindAllAppointments() {
         final var from = ZonedDateTime.now().minusDays(5);
         final var to = ZonedDateTime.now().plusDays(5);
-        final var appointment = mock(Appointment.class);
+        final var appointment = mock(BookedAppointment.class);
         final var dto = mock(AppointmentDto.class);
 
-        when(repository.findAllBetween(from, to)).thenReturn(Collections.singletonList(appointment));
+        when(bookedRepository.findAllBetween(from, to)).thenReturn(Collections.singletonList(appointment));
         when(mapper.map(appointment)).thenReturn(dto);
 
         final var result = service.findAll(from, to);
@@ -85,21 +89,23 @@ public class AppointmentsServiceTest {
     @Test
     public void shouldCancelAppointment() {
         final var appointmentId = UUID.randomUUID();
-        final var appointment = mock(Appointment.class);
+        final var appointment = mock(BookedAppointment.class);
+        final var cancelledAppointment = mock(CancelledAppointment.class);
 
-        when(repository.findById(appointmentId)).thenReturn(Optional.of(appointment));
+        when(bookedRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
+        when(appointment.cancel()).thenReturn(cancelledAppointment);
 
         service.cancel(appointmentId);
 
         verify(appointment).cancel();
-        verify(repository).save(appointment);
+        verify(cancelledRepository).save(cancelledAppointment);
     }
 
     @Test
     public void shouldNotCancelAppointment_withEntityNotFound() {
         final var appointmentId = UUID.randomUUID();
 
-        when(repository.findById(appointmentId)).thenReturn(Optional.empty());
+        when(bookedRepository.findById(appointmentId)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> service.cancel(appointmentId));
     }

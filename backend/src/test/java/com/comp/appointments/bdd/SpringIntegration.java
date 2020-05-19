@@ -11,8 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 @ContextConfiguration(loader = SpringBootContextLoader.class)
-public class SpringIntegrationTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringIntegrationTest.class);
+public class SpringIntegration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringIntegration.class);
 
     @Before
     public void setup() {

@@ -43,7 +43,6 @@ dependencies {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
     testImplementation 'io.rest-assured:rest-assured-all:4.2.0'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

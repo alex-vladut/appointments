@@ -12,14 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.comp.appointments.utils.DateTimeGenerator.nextBusinessDay;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.hasSize;
 
-public class BookAppointmentsSteps extends SpringIntegrationTest {
+public class BookAppointmentsSteps extends SpringIntegration {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
