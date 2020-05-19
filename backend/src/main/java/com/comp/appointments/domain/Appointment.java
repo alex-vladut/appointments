@@ -12,6 +12,8 @@ public abstract class Appointment {
     @Column
     private String title;
     private Interval interval;
+    @Version
+    private Integer version;
 
     /**
      * Constructor required by JPA
@@ -23,6 +25,7 @@ public abstract class Appointment {
         this.id = id;
         this.title = title;
         this.interval = interval;
+        this.version = 0;
     }
 
     public UUID id() {
@@ -35,6 +38,10 @@ public abstract class Appointment {
 
     public Interval interval() {
         return interval;
+    }
+
+    public Integer version() {
+        return version;
     }
 
     public static BookedAppointment create(@NonNull final String title, @NonNull final Interval interval) {
