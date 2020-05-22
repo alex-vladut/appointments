@@ -28,7 +28,7 @@ public class AppointmentsService {
     public UUID create(final CreateAppointmentRequest request) {
         final var interval = new WorkingTime().createInterval(request.getStart(), request.getEnd());
         final var overlapping = bookedRepository.overlapping(interval.start(), interval.end());
-        if (overlapping != null && overlapping > 0) {
+        if (Boolean.TRUE.equals(overlapping)) {
             throw new IllegalStateException("There is already an appointment booked for the selected time interval");
         }
         final var appointment = Appointment.create(request.getTitle(), interval);
