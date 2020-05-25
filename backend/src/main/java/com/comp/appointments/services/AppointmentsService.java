@@ -37,8 +37,7 @@ public class AppointmentsService {
     }
 
     public List<AppointmentDto> findAll(final ZonedDateTime from, final ZonedDateTime to) {
-        final var result = bookedRepository.findAllBetween(from, to);
-        return result.stream().map(mapper::map).collect(toList());
+        return bookedRepository.findAllBetween(from, to).stream().map(mapper::map).collect(toList());
     }
 
     @Transactional
