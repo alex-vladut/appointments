@@ -4,12 +4,7 @@
 MIN_DOCKER_CLIENT_VERSION = 17.03
 MIN_DOCKER_SERVER_VERSION = 17.03
 
-backend_build: ## Build the Docker image for backend application
-	@echo "> Building backend Docker image..."
-	@cd ./backend; ./gradlew clean build -x test
-	@docker build backend/. -t alex-vladut/appointments
-
-backend_up: clean backend_build ## Starts the backend application in a Docker container
+backend_up: clean ## Starts the backend application in a Docker container
 	@echo "> Starting backend app..."
 	@docker-compose -f backend/docker-compose-all.yml up -d
 

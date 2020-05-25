@@ -20,12 +20,7 @@ You can find the Swagger UI at http://localhost:8080/swagger-ui.html.
 
 ### Run with Docker
 
-Build the application first (the flag `-x test` skips the tests to speed up the build time):
-```bash
-$ ./gradlew clean build -x test
-```
-
-then build a Docker image:
+Build Docker image of the application:
 ```bash
 $ docker build . -t alex-vladut/appointments
 ```
