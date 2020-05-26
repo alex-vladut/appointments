@@ -42,19 +42,7 @@ $ docker run -it --name appointments -e DATABASE_HOST='<YOUR_IP_ADDRESS>' -p 808
 
 ### Run with Docker-compose
 
-Make sure first you have created the Docker image `alex-vladut/appointments` as that will be used by docker-compose. Follow the steps in the previous section to generate the image and run this command to check it is available:
-```bash
-$ docker image ls
-```
-
-which should return something like this:
-```bash
-  REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
-  alex-vladut/appointments   latest              76157c854ddb        5 minutes ago       543MB
-
-```
-
-Then run the following command to start th application alongside all its dependencies:
+Run the following command to start the application alongside all its dependencies:
 ```bash
 $ docker-compose -f docker-compose-all.yml up
 ```
@@ -66,7 +54,7 @@ Unit tests can be executed with the following command:
 $ ./gradlew test
 ```
 
-Integration tests are implemented by following Behaviour Driven Development guidelines with [Cucumber](https://cucumber.io/):
+Integration tests are implemented by following `Behaviour Driven Development` guidelines with [Cucumber](https://cucumber.io/):
 ```bash
 $ ./gradlew cucumber
 ```
