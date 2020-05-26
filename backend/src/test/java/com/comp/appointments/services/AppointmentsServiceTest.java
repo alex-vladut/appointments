@@ -47,7 +47,7 @@ public class AppointmentsServiceTest {
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
         final var captor = ArgumentCaptor.forClass(BookedAppointment.class);
-        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(0);
+        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(false);
 
         final UUID id = service.create(request);
 
@@ -64,7 +64,7 @@ public class AppointmentsServiceTest {
         final var end = start.plusHours(1);
         final var request = new CreateAppointmentRequest("My appointment", start, end);
 
-        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(3);
+        when(bookedRepository.overlapping(request.getStart(), request.getEnd())).thenReturn(true);
 
         assertThrows(IllegalStateException.class, () -> service.create(request));
     }
